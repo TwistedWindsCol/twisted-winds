@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Panel · Twisted Winds</title>
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{
+  --bg:#000;--card:#1c1c1e;--raised:#2c2c2e;--ink:#f5f5f7;--ink-2:#a1a1a6;--ink-3:#8d8d93;--line:#38383a;
+  --accent:#0a84ff;--red:#ff453a;--red-deep:#c4000f;--green:#30d158;--orange:#ff9f0a;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:var(--font);font-size:17px;line-height:1.45;letter-spacing:-.02em;-webkit-font-smoothing:antialiased;min-height:100vh;min-height:100dvh}
+button,input{font:inherit;color:inherit;letter-spacing:inherit}
+a,button,input{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:10px}
+.app{max-width:520px;margin:0 auto;padding:max(20px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(28px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:grid;gap:22px}
+.top{display:flex;align-items:center;gap:12px;padding-top:6px}
+.top img{width:30px;height:42px;object-fit:contain}
+.top .k{margin:0;font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:0}
+.top h1{margin:0;font-family:var(--display);font-size:26px;line-height:1.1;letter-spacing:-.03em}
+.card{background:var(--card);border-radius:22px;padding:22px 20px;display:grid;gap:14px}
+.card h2{margin:0;font-family:var(--display);font-size:22px;letter-spacing:-.02em}
+label{font-size:15px;font-weight:600;color:var(--ink-2)}
+input[type=password],input[type=text]{width:100%;min-height:52px;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:var(--raised);font-size:17px}
+input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(10,132,255,.35)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:12px 22px;border-radius:980px;border:0;cursor:pointer;font-size:17px;font-weight:600;transition:transform .15s,filter .2s,opacity .2s}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:default}
+.primary{background:var(--accent);color:#fff}
+.red{background:var(--red-deep);color:#fff}
+.ghost{background:var(--raised);color:var(--ink)}
+.ghost-red{background:rgba(255,69,58,.14);color:var(--red)}
+.err{margin:0;min-height:1.4em;font-size:15px;color:var(--red)}
+.status{display:flex;align-items:center;gap:10px;justify-self:start;padding:8px 14px;border-radius:999px;background:var(--card);font-size:15px;font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--ink-3);flex:none}
+.status.live .dot{background:var(--green);box-shadow:0 0 0 0 rgba(48,209,88,.6);animation:live 1.8s ease-out infinite}
+.status.half .dot{background:var(--orange)}
+.status.off .dot{background:var(--red)}
+@keyframes live{70%,100%{box-shadow:0 0 0 9px rgba(48,209,88,0)}}
+.launch-wrap{display:grid;justify-items:center;gap:16px;padding:10px 0 4px}
+.launch{position:relative;width:min(72vw,250px);aspect-ratio:1;border-radius:50%;border:0;cursor:pointer;color:#fff;
+  background:radial-gradient(circle at 50% 38%,#ff3b47 0%,#d70015 55%,#9e000c 100%);
+  box-shadow:0 0 0 10px rgba(215,0,21,.18),0 0 0 22px rgba(215,0,21,.08),0 22px 50px rgba(215,0,21,.35);
+  font-family:var(--display);font-size:26px;font-weight:800;line-height:1.08;letter-spacing:-.025em;transition:transform .15s}
+.launch:active{transform:scale(.97)}
+.launch:disabled{filter:grayscale(.6);opacity:.6}
+.launch svg{display:block;width:46px;height:42px;margin:0 auto 10px}
+.hint{margin:0;text-align:center;color:var(--ink-2);font-size:15px;max-width:30ch;text-wrap:balance}
+.info .label{margin:0;font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:0;text-transform:uppercase}
+.info .big{margin:0;font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-.02em}
+.info .sub{margin:0;font-size:15px;color:var(--ink-2)}
+.row{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:480px){.row{grid-template-columns:1fr 1fr}}
+
+.notes{margin:0;padding-left:1.1em;color:var(--ink-2);font-size:15px;display:grid;gap:6px}
+.foot{margin:0;text-align:center;font-size:15px;color:var(--ink-3)}
+.foot a{color:var(--accent);text-decoration:none}
+.link{border:0;background:none;color:var(--accent);cursor:pointer;padding:6px}
+.confirm{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.confirm .sheet{width:min(100%,520px);background:var(--card);border-radius:24px 24px 0 0;padding:24px 20px calc(22px + env(safe-area-inset-bottom,0px));display:grid;gap:12px;animation:up .35s cubic-bezier(.2,.8,.2,1)}
+.confirm h2{margin:0;font-family:var(--display);font-size:24px;letter-spacing:-.025em}
+.confirm p{margin:0 0 6px;color:var(--ink-2)}
+@keyframes up{from{transform:translateY(60%)}}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;z-index:60;
+  background:#f5f5f7;color:#000;font-size:15px;font-weight:600;padding:12px 18px;border-radius:999px;max-width:calc(100% - 32px);text-align:center;transition:opacity .25s,transform .25s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast.bad{background:var(--red);color:#fff}
+@media (prefers-reduced-motion:reduce){.status.live .dot,.confirm .sheet{animation:none}}
+</style>
+</head>
+<body>
+<main class="app">
+ <header class="top">
+  <img src="tornado-icon.webp" alt="" width="30" height="42">
+  <div><p class="k">Twisted Winds</p><h1>Panel del simulacro</h1></div>
+ </header>
+
+ <section class="card" id="login" aria-labelledby="loginT">
+  <h2 id="loginT">Entra con la contraseña</h2>
+  <form id="loginForm" style="display:grid;gap:12px">
+   <label for="pw">Contraseña</label>
+   <input id="pw" type="password" autocomplete="current-password" required>
+   <button class="btn primary" type="submit" id="loginBtn">Entrar</button>
+   <p class="err" id="loginErr" role="alert"></p>
+  </form>
+ </section>
+
+ <section id="panel" hidden style="display:grid;gap:22px">
+  <div class="status" id="status"><span class="dot"></span><span id="statusTxt">Conectando…</span></div>
+
+  <div class="launch-wrap">
+   <button type="button" class="launch" id="launch">
+    <svg viewBox="0 0 120 108" aria-hidden="true"><path d="M60 6c3.2 0 6.1 1.7 7.7 4.5l47.6 82.4c3.4 5.9-.9 13.1-7.7 13.1H12.4c-6.8 0-11.1-7.2-7.7-13.1L52.3 10.5C53.9 7.7 56.8 6 60 6z" fill="#fff"/><path d="M60 36v30" stroke="#c4000f" stroke-width="11" stroke-linecap="round"/><circle cx="60" cy="84" r="6.5" fill="#c4000f"/></svg>
+    Lanzar<br>simulacro
+   </button>
+   <p class="hint">Les llega a todas las personas que tengan la página abierta en ese momento.</p>
+  </div>
+
+  <div class="card info" aria-live="polite">
+   <p class="label">Último simulacro</p>
+   <p class="big" id="last">Ninguno todavía</p>
+   <p class="sub" id="lastSub"></p>
+  </div>
+
+  <div class="row">
+   <button type="button" class="btn ghost-red" id="stop">Detener para todos</button>
+   <button type="button" class="btn ghost" id="test">Probar en este celular</button>
+  </div>
+
+  <ul class="notes">
+   <li>“Probar en este celular” solo lo muestra aquí, no a los visitantes.</li>
+   <li>Quien entre a la página hasta 40 segundos después del lanzamiento también lo verá.</li>
+  </ul>
+
+  <p class="foot"><a href="./">Ver la página</a> · <button type="button" class="link" id="logout">Salir</button></p>
+ </section>
+</main>
+
+<div class="confirm" id="confirm" role="dialog" aria-modal="true" aria-labelledby="cT" hidden>
+ <div class="sheet">
+  <h2 id="cT">¿Lanzar el simulacro?</h2>
+  <p>Todos los celulares con la página abierta se pondrán en rojo y sonará la sirena.</p>
+  <button type="button" class="btn red" id="cYes">Lanzar ahora</button>
+  <button type="button" class="btn ghost" id="cNo">Cancelar</button>
+ </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="supabase.js"></script>
+<script src="simulacro.js"></script>
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const S=window.TWSimulacro,C=S&&S.config,sb=S&&S.cliente();
+let clave=null,ch=null,enVivo=false,rpcOk=false,ultimo=null,timer=null;
+
+function toast(msg,bad){const t=$('#toast');t.textContent=msg;t.classList.toggle('bad',!!bad);t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),3200)}
+function falta(e){return e&&(e.code==='PGRST202'||/function|funci/i.test(e.message||'')&&/not find|no se encontr|does not exist/i.test(e.message||''))}
+function msgError(e){if(falta(e))return 'Falta configurar Supabase: corre el archivo SQL.';if(/Clave incorrecta/.test(e.message||''))return 'Contraseña incorrecta.';return 'No se pudo conectar. Revisa el internet.'}
+
+/* ---------- entrar ---------- */
+async function verificar(k,silencioso){
+ const err=$('#loginErr'),btn=$('#loginBtn');err.textContent='';
+ if(!sb){err.textContent='No se pudo cargar la conexión. Recarga la página.';return}
+ btn.disabled=true;
+ try{
+  const r=await sb.rpc('verificar_clave',{clave:k});
+  if(r.error){err.textContent=msgError(r.error);return}
+  if(r.data!==true){if(!silencioso)err.textContent='Contraseña incorrecta.';try{sessionStorage.removeItem('tw-clave')}catch(e){}return}
+  clave=k;try{sessionStorage.setItem('tw-clave',k)}catch(e){}
+  $('#login').hidden=true;$('#panel').hidden=false;
+  conectar();estado();clearInterval(timer);timer=setInterval(estado,5000);
+ }catch(e){err.textContent='No se pudo conectar. Revisa el internet.'}
+ finally{btn.disabled=false}
+}
+$('#loginForm').addEventListener('submit',e=>{e.preventDefault();verificar($('#pw').value,false)});
+try{const k=sessionStorage.getItem('tw-clave');if(k)verificar(k,true)}catch(e){}
+
+/* ---------- conexión en vivo ---------- */
+function pintar(){const s=$('#status'),t=$('#statusTxt');s.className='status '+(enVivo?'live':rpcOk?'half':'off');
+ t.textContent=enVivo?'En vivo':rpcOk?'Conectado (aviso en vivo no disponible)':'Sin conexión'}
+function conectar(){if(ch||!sb)return;
+ ch=sb.channel(C.canal,{config:{private:false,broadcast:{self:false}}});
+ ch.subscribe(st=>{enVivo=st==='SUBSCRIBED';pintar()})}
+async function aviso(){if(!ch)return;const p={t:Date.now()};
+ try{if(enVivo){await ch.send({type:'broadcast',event:'aviso',payload:p})}else{await ch.httpSend('aviso',p)}}catch(e){/* los celulares igual revisan solos cada 5 s */}}
+
+/* ---------- estado ---------- */
+function hace(s){s=Math.max(0,Math.round(s));if(s<60)return 'hace '+s+' s';const m=Math.round(s/60);if(m<60)return 'hace '+m+' min';const h=Math.round(m/60);return 'hace '+h+' h'}
+async function estado(){if(!sb)return;
+ try{const r=await sb.rpc('estado_simulacro');
+  if(r.error){rpcOk=false;pintar();if(falta(r.error))$('#lastSub').textContent='Falta configurar Supabase: corre el archivo SQL.';return}
+  rpcOk=true;pintar();const d=r.data||{};ultimo=d.desde||null;
+  if(!d.desde){$('#last').textContent='Ninguno activo';$('#lastSub').textContent='';return}
+  const t=new Date(d.desde);$('#last').textContent=t.toLocaleTimeString('es-CO',{hour:'numeric',minute:'2-digit',second:'2-digit'});
+  $('#lastSub').textContent=hace(d.hace)+(d.hace<C.ventana?' · los que entren ahora también lo verán':'')
+ }catch(e){rpcOk=false;pintar()}}
+
+/* ---------- lanzar ---------- */
+const confirm=$('#confirm');
+$('#launch').addEventListener('click',()=>{confirm.hidden=false;$('#cYes').focus()});
+$('#cNo').addEventListener('click',()=>{confirm.hidden=true;$('#launch').focus()});
+confirm.addEventListener('click',e=>{if(e.target===confirm)confirm.hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!confirm.hidden)confirm.hidden=true});
+$('#cYes').addEventListener('click',async()=>{
+ const b=$('#cYes');b.disabled=true;
+ try{const r=await sb.rpc('lanzar_simulacro',{clave});
+  if(r.error){toast(msgError(r.error),true);return}
+  await aviso();confirm.hidden=true;toast('Simulacro lanzado');estado();
+  try{if(navigator.vibrate)navigator.vibrate(80)}catch(e){}
+ }catch(e){toast('No se pudo conectar. Revisa el internet.',true)}
+ finally{b.disabled=false}});
+
+/* ---------- detener ---------- */
+$('#stop').addEventListener('click',async()=>{
+ const b=$('#stop');b.disabled=true;
+ try{const r=await sb.rpc('detener_simulacro',{clave});
+  if(r.error){toast(msgError(r.error),true);return}
+  await aviso();toast('Simulacro detenido para todos');estado();
+ }catch(e){toast('No se pudo conectar. Revisa el internet.',true)}
+ finally{b.disabled=false}});
+
+/* ---------- probar aquí ---------- */
+$('#test').addEventListener('click',()=>{S.desbloquear();S.mostrar()});
+
+$('#logout').addEventListener('click',()=>{try{sessionStorage.removeItem('tw-clave')}catch(e){}location.reload()});
+})();
+</script>
+</body>
+</html>

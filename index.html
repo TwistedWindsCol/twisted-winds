@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Twisted Winds</title>
+<meta name="description" content="Twisted Winds: aprende qué hacer ante vendavales, tornados y terremotos en Colombia. Proyecto Tornado en una caja para la feria de la ciencia.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Twisted Winds">
+<meta property="og:description" content="Vendavales, tornados y terremotos explicados en palabras sencillas, con casos reales de Colombia y qué hacer en cada momento.">
+<meta property="og:image" content="https://twistedwindscol.github.io/twisted-winds/banner.jpg">
+<meta property="og:url" content="https://twistedwindscol.github.io/twisted-winds/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" as="image" href="intro-inicio.jpg">
+<style>
+/* Layout: Apple-style scroll story. Alternating white / soft-grey / night bands, 1024px column, bento tiles, one bold moment per band. */
+:root{
+  --bg:#ffffff; --band-alt:#f5f5f7; --card:#f5f5f7; --card-alt:#ffffff; --raised:#ffffff;
+  --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b; --line:#d2d2d7;
+  --accent:#0071e3; --accent-ink:#ffffff; --link:#0066cc; --sky:#7fa6cf;
+  --red:#d70015; --orange:#c93400; --yellow:#b25000; --green:#1d7f37;
+  --ring-1:#fa114f; --ring-2:#3fb800; --ring-3:#0a84ff;
+  --seg-bg:rgba(118,118,128,.12); --seg-thumb:#ffffff; --seg-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04);
+  --nav-bg:rgba(251,251,253,.8); --scrim:rgba(0,0,0,.48); --shadow:0 12px 40px rgba(0,0,0,.08);
+  --sheet-bg:#ffffff;
+  /* fixed night palette: used by the black bands in both themes */
+  --night:#000000; --night-card:#1d1d1f; --night-ink:#f5f5f7; --night-ink-2:#a1a1a6; --night-line:#424245;
+  --night-accent:#2997ff; --night-red:#ff453a; --night-orange:#ff9f0a; --night-yellow:#ffd60a; --night-green:#30d158;
+  --night-seg-bg:rgba(118,118,128,.24); --night-seg-thumb:#636366; --on-photo:#ffffff; --photo-fade:rgba(0,0,0,.72);
+  --fog:#e7edf2; --box:#0b1117;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --r-card:28px; --r-tile:22px; --r-btn:980px;
+  --col:1024px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --band-alt:#0e0e10; --card:#1c1c1e; --card-alt:#1c1c1e; --raised:#2c2c2e;
+  --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#8d8d93; --line:#38383a;
+  --accent:#0a84ff; --accent-ink:#ffffff; --link:#2997ff; --sky:#9dbfe3;
+  --red:#ff453a; --orange:#ff9f0a; --yellow:#ffd60a; --green:#30d158;
+  --ring-1:#fa114f; --ring-2:#92e82a; --ring-3:#1eeaef;
+  --seg-bg:rgba(118,118,128,.24); --seg-thumb:#636366; --seg-shadow:0 3px 8px rgba(0,0,0,.3);
+  --nav-bg:rgba(22,22,23,.8); --scrim:rgba(0,0,0,.66); --shadow:0 12px 40px rgba(0,0,0,.5);
+  --sheet-bg:#1c1c1e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --band-alt:#0e0e10; --card:#1c1c1e; --card-alt:#1c1c1e; --raised:#2c2c2e;
+  --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#8d8d93; --line:#38383a;
+  --accent:#0a84ff; --accent-ink:#ffffff; --link:#2997ff; --sky:#9dbfe3;
+  --red:#ff453a; --orange:#ff9f0a; --yellow:#ffd60a; --green:#30d158;
+  --ring-1:#fa114f; --ring-2:#92e82a; --ring-3:#1eeaef;
+  --seg-bg:rgba(118,118,128,.24); --seg-thumb:#636366; --seg-shadow:0 3px 8px rgba(0,0,0,.3);
+  --nav-bg:rgba(22,22,23,.8); --scrim:rgba(0,0,0,.66); --shadow:0 12px 40px rgba(0,0,0,.5);
+  --sheet-bg:#1c1c1e; color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:calc(52px + env(safe-area-inset-top,0px))}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.47;letter-spacing:-.022em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--nav-bg)}
+img,video,svg,canvas{max-width:100%}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font:inherit;color:inherit;letter-spacing:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+h1,h2,h3,h4{margin:0;font-family:var(--display);text-wrap:balance}
+p{margin:0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- bands ---------- */
+.band{background:var(--bg);color:var(--ink);padding-block:clamp(72px,11vw,140px)}
+.band.alt{background:var(--band-alt);--card:var(--card-alt)}
+.night{--bg:var(--night);--band-alt:var(--night);--card:var(--night-card);--card-alt:var(--night-card);--raised:#2c2c2e;
+  --ink:var(--night-ink);--ink-2:var(--night-ink-2);--ink-3:var(--night-ink-2);--line:var(--night-line);
+  --accent:var(--night-accent);--link:var(--night-accent);--red:var(--night-red);--orange:var(--night-orange);--yellow:var(--night-yellow);--green:var(--night-green);
+  --seg-bg:var(--night-seg-bg);--seg-thumb:var(--night-seg-thumb);--sky:#9dbfe3;
+  background:var(--night);color:var(--night-ink);color-scheme:dark}
+.wrap{max-width:calc(var(--col) + 64px);margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:700px){.wrap{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
+.stack{display:grid;gap:clamp(40px,6vw,72px)}
+
+/* ---------- type ---------- */
+.eyebrow{font-size:clamp(17px,1.6vw,21px);font-weight:600;letter-spacing:.004em;color:var(--ink-2)}
+.eyebrow.c-sky{color:var(--sky)}.eyebrow.c-orange{color:var(--orange)}.eyebrow.c-red{color:var(--red)}.eyebrow.c-green{color:var(--green)}
+.h2{font-size:clamp(34px,5.4vw,64px);line-height:1.06;font-weight:700;letter-spacing:-.028em;max-width:18ch}
+.h3{font-size:clamp(24px,2.8vw,32px);line-height:1.12;font-weight:700;letter-spacing:-.02em}
+.lead{font-size:clamp(19px,2vw,24px);line-height:1.38;font-weight:600;color:var(--ink-2);max-width:40ch;letter-spacing:-.016em}
+.lead strong{color:var(--ink);font-weight:600}
+.body{max-width:62ch;color:var(--ink-2)}
+.body strong{color:var(--ink);font-weight:600}
+.small{font-size:14px;line-height:1.43;color:var(--ink-2);letter-spacing:-.01em}
+.micro{font-size:12px;line-height:1.33;color:var(--ink-3);letter-spacing:0}
+.head{display:grid;gap:14px}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- controls ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 22px;border-radius:var(--r-btn);border:0;background:var(--accent);color:var(--accent-ink);font-size:17px;font-weight:500;cursor:pointer;text-decoration:none;transition:filter .2s,transform .2s}
+.btn:hover{text-decoration:none;filter:brightness(1.08)}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--link);box-shadow:inset 0 0 0 1px var(--link)}
+.more{display:inline-flex;align-items:center;gap:4px;min-height:44px;font-size:17px;color:var(--link)}
+.more::after{content:"›";font-size:1.25em;line-height:1;transform:translateY(-1px)}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:center}
+
+.seg{display:inline-flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:3px;gap:2px;border-radius:12px;background:var(--seg-bg);max-width:100%;justify-self:start;align-self:start}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:none;border:0;background:transparent;padding:8px 18px;min-height:40px;border-radius:9px;cursor:pointer;font-size:15px;font-weight:500;color:var(--ink);white-space:nowrap;transition:background .25s,box-shadow .25s}
+@media (max-width:480px){.seg button{padding:8px 11px;font-size:14px}}
+.seg button[aria-pressed="true"]{background:var(--seg-thumb);box-shadow:var(--seg-shadow);font-weight:600}
+
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:5px 11px;border-radius:999px;background:color-mix(in srgb,var(--c,var(--ink-2)) 14%,transparent);color:var(--c,var(--ink-2));letter-spacing:0;white-space:nowrap}
+.chip i{width:7px;height:7px;border-radius:50%;background:currentColor}
+
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;cursor:pointer;--p:50%}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,var(--accent) var(--p),var(--line) var(--p))}
+input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:var(--line)}
+input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:var(--accent)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-11px;border-radius:50%;background:#fff;border:0;box-shadow:0 1px 2px rgba(0,0,0,.25),0 3px 10px rgba(0,0,0,.18)}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:0;box-shadow:0 1px 2px rgba(0,0,0,.25),0 3px 10px rgba(0,0,0,.18)}
+.control{display:grid;gap:6px}
+.control label{display:flex;justify-content:space-between;gap:12px;font-weight:600;font-size:15px}
+.control output{font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+/* ---------- reveal (scroll-driven, from a visible resting state) ---------- */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{animation:grow linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
+    .head.reveal{animation-name:rise}
+    @keyframes rise{from{transform:translateY(22px)}to{transform:none}}
+    @keyframes grow{from{transform:scale(.95)}to{transform:none}}
+  }
+}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--nav-bg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:52px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:19px;color:var(--ink);letter-spacing:-.02em;white-space:nowrap}
+.brand:hover{text-decoration:none}
+.brand img{width:22px;height:31px;object-fit:contain}
+.nav-links{display:flex;gap:22px;margin-left:auto;font-size:13px;letter-spacing:-.01em}
+.nav-links a{color:var(--ink-2);padding-block:8px}
+.nav-links a:hover{color:var(--ink);text-decoration:none}
+.nav .btn{min-height:30px;padding:5px 14px;font-size:13px}
+.menu-btn{display:none;margin-left:auto;border:0;background:transparent;min-width:44px;min-height:44px;cursor:pointer;color:var(--ink)}
+.menu{display:none}
+@media (max-width:820px){
+  .nav-links{display:none}
+  .nav .btn{margin-left:auto}
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center;margin-left:0}
+  .menu{display:grid;position:absolute;left:0;right:0;top:100%;background:var(--nav-bg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);padding:8px max(16px,env(safe-area-inset-right,0px)) 18px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+  .menu a{font-size:24px;font-weight:600;color:var(--ink);padding:10px 0;letter-spacing:-.02em}
+}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(48px,8vw,104px) clamp(64px,9vw,120px);text-align:center;overflow:hidden;background:radial-gradient(38% 46% at 40% 36%,rgba(127,166,207,.17),rgba(127,166,207,0) 72%),var(--night)}
+.hero-in{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;gap:clamp(18px,3vw,30px)}
+.logo{display:flex;align-items:center;justify-content:center;width:100%;max-width:820px;aspect-ratio:890/506;position:relative}
+.logo img{min-width:0}
+.logo .t{width:40%;height:100%;object-fit:contain;transform-origin:52% 96%;animation:sway 7s ease-in-out infinite alternate}
+.logo .w{width:59.6%;object-fit:contain;margin-left:.4%;margin-top:2%}
+@keyframes sway{0%{transform:rotate(-1.6deg) skewX(1deg)}50%{transform:rotate(.8deg) skewX(-1.2deg) translateY(-4px)}100%{transform:rotate(1.8deg) skewX(.6deg)}}
+.hero-claim{font-family:var(--display);font-size:clamp(28px,4.4vw,56px);line-height:1.08;font-weight:700;letter-spacing:-.03em;max-width:20ch;text-wrap:balance}
+.hero-sub{font-size:clamp(17px,1.8vw,21px);color:var(--ink-2);max-width:46ch;line-height:1.4;font-weight:500}
+@media (prefers-reduced-motion:reduce){.logo .t{animation:none}}
+
+/* ---------- rules ---------- */
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:820px){.rules{grid-template-columns:1fr}}
+.rule{background:var(--card);border-radius:var(--r-card);padding:clamp(24px,3vw,36px);display:grid;gap:12px;align-content:start}
+.rule svg{width:52px;height:52px;color:var(--c)}
+.rule h3{font-size:clamp(22px,2.2vw,28px);line-height:1.12;letter-spacing:-.02em}
+.rule p{color:var(--ink-2)}
+.rule .big123{font-family:var(--display);font-weight:700;font-size:clamp(56px,6vw,76px);line-height:1;letter-spacing:-.04em;color:var(--red)}
+
+/* ---------- bento stats ---------- */
+.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+.tile{background:var(--card);border-radius:var(--r-card);padding:clamp(22px,2.8vw,34px);display:flex;flex-direction:column;gap:10px;min-width:0}
+.tile .stat{font-family:var(--display);font-weight:700;font-size:clamp(46px,6vw,80px);line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.tile p{color:var(--ink-2);font-weight:500}
+.tile p strong{color:var(--ink);font-weight:600}
+.tile .src{margin-top:auto;padding-top:6px}
+.t-3{grid-column:span 3}.t-2{grid-column:span 2}.t-4{grid-column:span 4}
+.c-red{color:var(--red)}.c-orange{color:var(--orange)}.c-sky{color:var(--sky)}.c-green{color:var(--green)}
+.grad{background:linear-gradient(135deg,var(--night-orange),var(--night-red) 60%,#bf5af2);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (max-width:900px){.t-3,.t-2,.t-4{grid-column:span 3}}
+@media (max-width:620px){.bento{grid-template-columns:1fr}.t-3,.t-2,.t-4{grid-column:auto}}
+
+/* ---------- gallery ---------- */
+.gal-top{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.scroller{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-block:8px 28px;padding-inline:max(max(16px,env(safe-area-inset-left,0px)),calc((100% - var(--col)) / 2));scroll-padding-inline:max(16px,calc((100% - var(--col)) / 2));scrollbar-width:none;overscroll-behavior-x:contain}
+@media (min-width:700px){.scroller{padding-inline:max(32px,calc((100% - var(--col)) / 2));scroll-padding-inline:max(32px,calc((100% - var(--col)) / 2))}}
+.scroller::-webkit-scrollbar{display:none}
+.case{flex:none;width:clamp(264px,28vw,320px);height:clamp(400px,46vw,470px);scroll-snap-align:start;border:0;border-radius:var(--r-card);padding:26px 24px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;background:var(--card);color:var(--ink);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.case:hover{transform:scale(1.015)}
+.case .when{font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:0}
+.case .where{font-family:var(--display);font-size:26px;line-height:1.1;font-weight:700;letter-spacing:-.025em}
+.case .n{font-family:var(--display);font-size:64px;line-height:1;font-weight:700;letter-spacing:-.05em;margin-top:auto;font-variant-numeric:tabular-nums}
+.case .u{font-size:15px;color:var(--ink-2);font-weight:500}
+.case .plus{position:absolute;right:18px;bottom:18px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--bg);font-size:22px;line-height:1;font-weight:400}
+.case .ico{width:64px;height:64px;color:var(--c,var(--sky));margin-top:18px}
+.case.photo{color:var(--on-photo);background:#111 var(--img) center/cover no-repeat}
+.case.photo::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--photo-fade) 0%,rgba(0,0,0,.35) 45%,rgba(0,0,0,0) 70%),linear-gradient(to bottom,rgba(0,0,0,.45),rgba(0,0,0,0) 30%)}
+.case.photo>*{position:relative}
+.case.photo>.plus,.case.photo>.tag{position:absolute}
+.case.photo .when,.case.photo .u{color:rgba(255,255,255,.82)}
+.case.photo .plus{background:rgba(255,255,255,.92);color:#000}
+.case .tag{position:absolute;top:22px;right:22px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.22);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--on-photo);letter-spacing:0}
+.case.new .when::before{content:"Nuevo · ";color:var(--orange)}
+.gal-nav{display:flex;gap:12px;justify-content:flex-end}
+@media (max-width:700px){.gal-nav{display:none}}
+.circle{width:44px;height:44px;border-radius:50%;border:0;background:var(--seg-bg);color:var(--ink);cursor:pointer;display:grid;place-items:center;font-size:22px}
+.circle:disabled{opacity:.35;cursor:default}
+
+/* ---------- sheet (case detail) ---------- */
+.sheet{position:fixed;inset:0;z-index:80;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.sheet-box{position:relative;width:min(980px,100%);max-height:100%;overflow:auto;background:var(--sheet-bg);color:var(--ink);border-radius:var(--r-card);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);box-shadow:0 30px 80px rgba(0,0,0,.35);animation:pop .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:translateY(24px) scale(.98);opacity:.4}}
+@media (max-width:760px){.sheet-box{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.sheet-box{animation:none}}
+.sheet-media{background:#0b0b0c;min-height:260px;display:grid;place-items:center;overflow:hidden}
+.sheet-media img,.sheet-media video{width:100%;height:100%;max-height:72vh;object-fit:cover;display:block}
+.sheet-media svg{width:86%;height:auto}
+.sheet-text{padding:clamp(28px,4vw,48px);display:grid;gap:16px;align-content:center;min-width:0}
+.sheet-text .h3{font-size:clamp(26px,3vw,36px)}
+.sheet-n{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sheet-n b{font-family:var(--display);font-size:clamp(54px,6vw,76px);line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+blockquote{margin:0;font-family:var(--display);font-size:21px;line-height:1.3;font-weight:600;letter-spacing:-.02em}
+blockquote cite{display:block;margin-top:6px;font-family:var(--font);font-size:14px;font-style:normal;font-weight:400;color:var(--ink-2);letter-spacing:-.01em}
+.sheet-x{position:absolute;top:14px;right:14px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;background:rgba(120,120,128,.32);color:#fff;font-size:18px;display:grid;place-items:center;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.sheet-nav{display:flex;gap:10px;flex-wrap:wrap;padding-top:4px}
+#flyRoof{transform-box:fill-box;transform-origin:50% 100%;animation:flyroof 2.2s .4s cubic-bezier(.5,0,.7,1) infinite}
+@keyframes flyroof{0%{transform:none;opacity:1}10%{transform:rotate(-3deg)}20%{transform:rotate(3deg) translateY(-4px)}30%{transform:rotate(-4deg) translateY(-10px)}70%{transform:translate(220px,-200px) rotate(60deg);opacity:0}100%{transform:translate(220px,-200px) rotate(60deg);opacity:0}}
+.wind-lines path{stroke-dasharray:46 26;animation:blow .7s linear infinite}
+@keyframes blow{to{stroke-dashoffset:-72}}
+@media (prefers-reduced-motion:reduce){#flyRoof,.wind-lines path{animation:none}}
+
+/* ---------- types of wind ---------- */
+.types{display:grid;gap:24px}
+.type-stage{background:var(--card);border-radius:var(--r-card);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);overflow:hidden}
+@media (max-width:820px){.type-stage{grid-template-columns:1fr}}
+.type-art{display:grid;place-items:center;padding:28px;min-height:280px;background:linear-gradient(180deg,color-mix(in srgb,var(--sky) 16%,transparent),transparent)}
+.type-art svg{width:min(100%,420px);height:auto;display:none}
+.type-art svg.on{display:block}
+.type-facts{padding:clamp(24px,3.4vw,44px);display:grid;gap:22px;align-content:center}
+.type-facts h4{font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:.02em;text-transform:uppercase;margin-bottom:4px}
+.type-facts p{font-size:17px}
+.funnel ellipse{stroke-dasharray:14 9;animation:spin 1.1s linear infinite}
+.swing{transform-box:fill-box;transform-origin:50% 0;animation:swing 3.4s ease-in-out infinite alternate}
+@keyframes spin{to{stroke-dashoffset:-46}}
+@keyframes swing{from{transform:skewX(-5deg)}to{transform:skewX(5deg)}}
+.waves path{animation:wave 2.4s linear infinite}
+@keyframes wave{to{transform:translateX(-40px)}}
+.gusts path{stroke-dasharray:50 30;animation:gust .7s linear infinite}
+@keyframes gust{to{stroke-dashoffset:-80}}
+@media (prefers-reduced-motion:reduce){.funnel ellipse,.swing,.waves path,.gusts path{animation:none}}
+
+/* ---------- experiment ---------- */
+.exp{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,72px);align-items:center}
+@media (max-width:820px){.exp{grid-template-columns:1fr}}
+.photo-pins{position:relative;width:min(100%,360px);justify-self:center;border-radius:var(--r-card);overflow:hidden;box-shadow:var(--shadow)}
+.photo-pins img{display:block;width:100%;height:auto}
+.pin{position:absolute;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#000;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.35);transition:transform .2s,background .2s}
+.pin::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(255,255,255,.8);animation:ping 2s ease-out infinite}
+.pin[aria-pressed="true"]{background:var(--accent);color:#fff;transform:translate(-50%,-50%) scale(1.12)}
+.pin[aria-pressed="true"]::after{animation:none;opacity:0}
+@keyframes ping{from{transform:scale(.8);opacity:1}to{transform:scale(1.5);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pin::after{animation:none}}
+.explain{display:grid;gap:14px}
+.explain .stepn{font-size:15px;font-weight:600;color:var(--accent)}
+.explain p{font-size:clamp(19px,1.9vw,22px);line-height:1.4;color:var(--ink-2);font-weight:500;letter-spacing:-.016em}
+.pin-list{display:flex;gap:8px;flex-wrap:wrap}
+
+.sim{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center;background:var(--card);border-radius:var(--r-card);padding:clamp(18px,3vw,40px)}
+@media (max-width:820px){.sim{grid-template-columns:1fr}}
+.canvas-box{background:var(--box);border-radius:22px;overflow:hidden;aspect-ratio:4/5;width:min(100%,420px);justify-self:center}
+.canvas-box canvas{display:block;width:100%;height:100%}
+.sim-side{display:grid;gap:22px}
+.status{display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-radius:18px;background:var(--raised);font-weight:600;line-height:1.35}
+.status i{flex:none;width:10px;height:10px;border-radius:50%;margin-top:7px;background:var(--st,var(--ink-3))}
+
+/* ---------- roof ---------- */
+.roof{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+@media (max-width:820px){.roof{grid-template-columns:1fr}}
+.roof-art{background:var(--card);border-radius:var(--r-card);padding:clamp(12px,2vw,24px)}
+.roof-art svg{width:100%;height:auto;display:block}
+#winds path{stroke-dasharray:60 34;animation:blow2 var(--dur,2s) linear infinite}
+@keyframes blow2{to{stroke-dashoffset:-94}}
+#roofTop{transform-box:fill-box;transform-origin:50% 100%}
+.flying #roofTop{animation:roofoff 1.3s cubic-bezier(.5,0,.7,1) forwards}
+@keyframes roofoff{10%{transform:rotate(-3deg) translateY(-4px)}22%{transform:rotate(4deg) translateY(-10px)}34%{transform:rotate(-4deg) translateY(-18px)}100%{transform:translate(190px,-190px) rotate(48deg);opacity:0}}
+#rainIn{opacity:0;transition:opacity .4s}.flying #rainIn{opacity:1}
+#rainIn line{stroke-dasharray:10 16;animation:fall .5s linear infinite}
+@keyframes fall{to{stroke-dashoffset:-26}}
+@media (prefers-reduced-motion:reduce){#winds path,#rainIn line{animation:none}.flying #roofTop{animation:none;opacity:0}}
+.meter{display:grid;gap:8px}
+.meter .row{display:flex;justify-content:space-between;gap:12px;font-size:15px;color:var(--ink-2)}
+.meter .row b{color:var(--ink);font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:4px;background:var(--seg-bg);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;transition:width .25s}
+.scale{position:relative;height:18px;font-size:12px;color:var(--ink-3);letter-spacing:0}
+.scale span{position:absolute;white-space:nowrap}
+.roof-side{display:grid;gap:22px}
+
+/* ---------- quakes ---------- */
+.quake-hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(20px,5vw,72px);align-items:end}
+@media (max-width:760px){.quake-hero{grid-template-columns:1fr}}
+.mag{font-family:var(--display);font-weight:700;font-size:clamp(120px,22vw,260px);line-height:.82;letter-spacing:-.06em}
+.mag small{display:block;font-size:15px;font-weight:600;letter-spacing:0;color:var(--ink-2);margin-top:.22em;font-family:var(--font);-webkit-text-fill-color:var(--ink-2)}
+.qfacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px}
+.qfacts div{display:grid;gap:2px;border-top:1px solid var(--line);padding-top:12px}
+.qfacts b{font-family:var(--display);font-size:clamp(28px,3.4vw,40px);font-weight:700;letter-spacing:-.035em;line-height:1.05;font-variant-numeric:tabular-nums}
+.qfacts span{font-size:14px;color:var(--ink-2)}
+
+.phones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:820px){.phones{grid-template-columns:1fr}}
+.phone-card{background:var(--card);border-radius:var(--r-card);padding:clamp(24px,3vw,40px);display:grid;grid-template-columns:150px minmax(0,1fr);gap:clamp(18px,3vw,32px);align-items:start}
+@media (max-width:440px){.phone-card{grid-template-columns:1fr}.device{justify-self:center}}
+.phone-card h3{font-size:clamp(26px,2.8vw,32px);letter-spacing:-.03em}
+.phone-card .txt{display:grid;gap:14px;min-width:0}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:s}
+.steps li{counter-increment:s;display:flex;align-items:center;gap:12px;font-size:16px;font-weight:600;line-height:1.3}
+.steps li::before{content:counter(s);flex:none;width:26px;height:26px;border-radius:50%;background:var(--raised);display:grid;place-items:center;font-size:13px;color:var(--ink-2)}
+.steps li:last-child::before{background:var(--accent);color:#fff}
+.steps small{font-weight:500;color:var(--ink-2);font-size:14px}
+.device{width:150px;aspect-ratio:9/19;border-radius:30px;background:#0a0a0a;padding:7px;box-shadow:0 0 0 1.5px #3a3a3c,0 18px 40px rgba(0,0,0,.45)}
+.screen{width:100%;height:100%;border-radius:24px;background:#f2f2f7;color:#1d1d1f;overflow:hidden;display:flex;flex-direction:column;gap:7px;padding:30px 8px 8px;position:relative;font-size:9px;letter-spacing:0}
+.device.ios .screen::before{content:"";position:absolute;top:8px;left:50%;width:42px;height:13px;border-radius:9px;background:#000;transform:translateX(-50%)}
+.device.droid .screen{background:#f7f9fc}
+.device.droid .screen::before{content:"";position:absolute;top:10px;left:50%;width:9px;height:9px;border-radius:50%;background:#000;transform:translateX(-50%)}
+.screen .ttl{font-weight:700;font-size:13px;padding-inline:4px;letter-spacing:-.02em}
+.screen .grp{background:#fff;border-radius:9px;display:grid}
+.screen .r{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 8px;border-bottom:.5px solid #e5e5ea}
+.screen .r:last-child{border-bottom:0}
+.screen .r i{display:block;height:5px;border-radius:3px;background:#d1d1d6}
+.screen .r b{font-weight:600}
+.screen .hdr{font-size:7.5px;color:#6e6e73;padding:4px 8px 0;letter-spacing:.02em}
+.screen .hl{background:#e8f1ff;outline:1.5px solid #0a84ff;outline-offset:-1.5px;border-radius:9px}
+.tg{flex:none;width:24px;height:14px;border-radius:7px;background:#34c759;position:relative}
+.tg::after{content:"";position:absolute;right:1.5px;top:1.5px;width:11px;height:11px;border-radius:50%;background:#fff}
+.device.droid .tg{background:#1a73e8}
+
+.alertx{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+@media (max-width:820px){.alertx{grid-template-columns:1fr}}
+.race{background:var(--card);border-radius:var(--r-card);padding:clamp(22px,3vw,36px);display:grid;gap:18px}
+.race-big{font-family:var(--display);font-weight:700;font-size:clamp(56px,7vw,88px);line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.track{position:relative;height:56px}
+.track .ln{position:absolute;left:14px;right:22px;top:27px;height:2px;background:var(--line)}
+.track .epi{position:absolute;left:0;top:14px;width:28px;height:28px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 6px color-mix(in srgb,var(--orange) 25%,transparent)}
+.track .you{position:absolute;top:10px;width:30px;height:34px;transform:translateX(-50%);color:var(--ink)}
+.track .pulse{position:absolute;left:14px;top:20px;width:16px;height:16px;border-radius:50%;background:var(--orange);opacity:.9;animation:travel var(--t,3s) linear infinite}
+@keyframes travel{from{transform:translateX(0);opacity:1}92%{opacity:1}to{transform:translateX(var(--to,200px));opacity:0}}
+@media (prefers-reduced-motion:reduce){.track .pulse{animation:none;display:none}}
+
+.dcd{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.dcd{grid-template-columns:1fr}}
+.dcd .tile{align-items:flex-start}
+.dcd svg{width:120px;height:100px;color:var(--ink)}
+.dcd .k{font-family:var(--display);font-size:clamp(30px,3.4vw,40px);font-weight:700;letter-spacing:-.035em;line-height:1}
+.shake{animation:shake .5s ease-in-out infinite}
+@keyframes shake{25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
+@media (prefers-reduced-motion:reduce){.shake{animation:none}}
+.note{display:flex;gap:16px;align-items:flex-start;background:var(--card);border-radius:var(--r-tile);padding:22px 24px}
+.note svg{flex:none;width:28px;height:28px;color:var(--accent)}
+
+/* ---------- simulacro ---------- */
+.drill{background:var(--card);border-radius:var(--r-card);padding:clamp(24px,4vw,52px);display:grid;gap:22px;min-height:440px;align-content:center}
+.drill-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.timer{position:relative;width:64px;height:64px;flex:none}
+.timer svg{width:64px;height:64px;transform:rotate(-90deg)}
+.timer .tk{fill:none;stroke:var(--seg-bg);stroke-width:6}
+.timer .tv{fill:none;stroke:var(--accent);stroke-width:6;stroke-linecap:round;stroke-dasharray:176;stroke-dashoffset:0}
+.timer b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.timer.low .tv{stroke:var(--red)}.timer.low b{color:var(--red)}
+.situation{font-family:var(--display);font-size:clamp(24px,3vw,36px);line-height:1.18;font-weight:700;letter-spacing:-.025em;max-width:30ch}
+.choices{display:grid;gap:10px}
+.choice{display:flex;align-items:center;gap:14px;text-align:left;width:100%;border:0;border-radius:18px;padding:16px 18px;min-height:60px;background:var(--raised);cursor:pointer;font-size:17px;font-weight:500;box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .2s,background .2s}
+.choice:hover:not(:disabled){box-shadow:inset 0 0 0 2px var(--accent)}
+.choice .mk{flex:none;width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--ink-3);display:grid;place-items:center;font-size:14px;font-weight:700}
+.choice.ok{box-shadow:inset 0 0 0 2px var(--green);background:color-mix(in srgb,var(--green) 12%,var(--raised))}
+.choice.ok .mk{background:var(--green);color:#fff;box-shadow:none}
+.choice.bad{box-shadow:inset 0 0 0 2px var(--red);background:color-mix(in srgb,var(--red) 12%,var(--raised))}
+.choice.bad .mk{background:var(--red);color:#fff;box-shadow:none}
+.choice:disabled{cursor:default}
+.feedback{font-size:19px;line-height:1.4;font-weight:500;color:var(--ink-2);max-width:60ch;min-height:1.4em}
+.feedback strong{color:var(--ink)}
+.score{font-family:var(--display);font-weight:700;font-size:clamp(72px,10vw,120px);line-height:1;letter-spacing:-.05em}
+.review{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.review li{display:flex;gap:12px;align-items:flex-start}
+.review .mk{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:700}
+
+/* ---------- prepare ---------- */
+.prep{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+@media (max-width:860px){.prep{grid-template-columns:1fr}}
+.rings-card{background:var(--card);border-radius:var(--r-card);padding:28px;display:grid;gap:22px;justify-items:center;position:sticky;top:76px}
+@media (max-width:860px){.rings-card{position:static}}
+.rings{width:200px;height:200px}
+.rings circle{fill:none;stroke-width:18;stroke-linecap:round}
+.rings .trk{opacity:.2}
+.rings .val{transition:stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1)}
+.legend{display:grid;gap:10px;width:100%}
+.legend div{display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:600}
+.legend span{display:flex;align-items:center;gap:10px}
+.legend i{width:12px;height:12px;border-radius:50%;background:var(--c)}
+.legend b{font-variant-numeric:tabular-nums;color:var(--ink-2);font-weight:600}
+.verdict{font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-.02em;text-align:center}
+.lists{display:grid;gap:16px}
+.list-card{background:var(--card);border-radius:var(--r-card);padding:clamp(20px,3vw,32px);display:grid;gap:14px}
+.list-card header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.list-card h3{display:flex;align-items:center;gap:10px;font-size:21px;letter-spacing:-.02em}
+.list-card h3 i{width:12px;height:12px;border-radius:50%;background:var(--c)}
+.checks{list-style:none;margin:0;padding:0;display:grid}
+.checks li+li{border-top:1px solid var(--line)}
+.checks label{display:flex;gap:14px;align-items:flex-start;padding:13px 0;cursor:pointer;line-height:1.4}
+.checks input{position:absolute;opacity:0;width:1px;height:1px}
+.checks .box{flex:none;width:24px;height:24px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--ink-3);display:grid;place-items:center;transition:background .2s,box-shadow .2s;margin-top:-1px}
+.checks .box svg{width:14px;height:14px;opacity:0;color:#fff}
+.checks input:checked+.box{background:var(--c);box-shadow:none}
+.checks input:checked+.box svg{opacity:1}
+.checks input:focus-visible+.box{outline:3px solid var(--accent);outline-offset:2px}
+.checks input:checked~span{color:var(--ink-2)}
+.todo{display:grid;gap:22px}
+.todo-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.todo-cols{grid-template-columns:1fr}}
+.todo-cols .tile{gap:14px}
+.todo-cols ul{margin:0;padding-left:1.15em;display:grid;gap:10px;color:var(--ink-2)}
+.todo-cols li::marker{color:var(--ink-3)}
+
+/* ---------- close ---------- */
+.close{text-align:center}
+.close .stack{justify-items:center}
+.close .h2{max-width:20ch;margin-inline:auto}
+.n123{font-family:var(--display);font-weight:700;font-size:clamp(120px,20vw,220px);line-height:.85;letter-spacing:-.06em}
+.street{width:100%;max-width:900px;height:auto}
+.street .house rect.w{fill:var(--night-card);stroke:var(--night-line);stroke-width:2}
+.street .house path{fill:none;stroke:var(--night-ink-2);stroke-width:2;stroke-dasharray:5 5;transition:all .6s}
+.street .house rect.v{fill:var(--night-line);transition:fill .6s}
+.street .house.ready path{fill:var(--night-green);stroke:var(--night-green);stroke-dasharray:none}
+.street .house.ready rect.v{fill:var(--night-yellow)}
+
+/* ---------- sources & footer ---------- */
+.sources{columns:2 340px;column-gap:40px;margin:0;padding-left:1.2em;font-size:14px;color:var(--ink-2)}
+.sources li{margin-bottom:8px;break-inside:avoid}
+.sources h4{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);margin:18px 0 8px;font-family:var(--font)}
+footer{background:var(--band-alt);color:var(--ink-2);font-size:12px;letter-spacing:0;padding-block:28px 40px}
+footer .wrap{display:grid;gap:8px}
+footer b{color:var(--ink);font-weight:600}
+
+/* ---------- intro: bienvenida + video ---------- */
+html.intro-on{overflow:hidden}
+.intro{position:fixed;inset:0;z-index:300;overflow:hidden;color:#f5f5f7;background:#000;transition:opacity .7s ease,visibility .7s}
+.intro.out{opacity:0;visibility:hidden;pointer-events:none}
+
+/* paso 1: bienvenida */
+.intro-welcome{position:absolute;inset:0;display:grid;place-items:center;
+  background:radial-gradient(70% 55% at 50% 42%,rgba(127,166,207,.22),rgba(127,166,207,0) 70%),radial-gradient(120% 80% at 50% 110%,#0b1622 0%,#000 60%),#000;
+  padding:max(24px,env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));
+  transition:opacity .6s ease}
+.intro-welcome.out{opacity:0;pointer-events:none}
+.intro-welcome canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.intro-welcome .fx-front{z-index:2}
+.intro-in{position:relative;z-index:1;display:grid;justify-items:center;gap:clamp(14px,2.6vh,26px);width:100%;max-width:880px;text-align:center}
+.intro-eyebrow{margin:0;font-size:15px;font-weight:600;color:#a1a1a6;letter-spacing:.01em;opacity:0;animation:iFade .8s .25s ease forwards}
+.intro-logo{position:relative;display:flex;flex-direction:column;align-items:center;width:100%}
+.intro-logo .it{width:auto;height:min(44vh,74vw,440px);object-fit:contain;transform-origin:52% 96%;opacity:0;
+  animation:iTornado 1.5s .15s cubic-bezier(.2,.75,.2,1) forwards,sway 6s 1.65s ease-in-out infinite alternate}
+.intro-logo .iw{width:min(82vw,430px);height:auto;margin-top:-1.5vh;opacity:0;clip-path:inset(0 100% 0 0);
+  animation:iWord 1.1s 1.05s cubic-bezier(.25,.8,.25,1) forwards}
+.intro-welcome.out .intro-logo{transform:scale(1.12);transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.intro-cta{display:grid;justify-items:center;gap:14px;min-height:96px;margin-top:4px}
+.intro-load{width:150px;height:4px;border-radius:2px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:22px;transition:opacity .3s}
+.intro-load span{display:block;height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,#7fa6cf,#f5f5f7);transition:width .35s ease}
+.intro-load.done{opacity:0}
+.intro-go{min-width:200px;min-height:54px;font-size:19px;font-weight:600;background:#f5f5f7;color:#000}
+.intro-go:not([hidden]){animation:iRise .6s cubic-bezier(.2,.8,.2,1) both,iHalo 2.2s .6s ease-out infinite}
+.intro-hint{margin:0;font-size:14px;color:#8d8d93;opacity:0;animation:iFade .6s 2.2s ease forwards;max-width:32ch;text-wrap:balance}
+@media (min-width:760px) and (min-height:560px){
+  .intro-logo{flex-direction:row;justify-content:center}
+  .intro-logo .it{height:min(50vh,420px)}
+  .intro-logo .iw{width:min(46vw,440px);margin:0 0 0 -1%}
+}
+
+/* paso 2: video */
+.intro-video{position:absolute;inset:0;background:#05080c;opacity:0;transition:opacity .6s ease}
+.intro-video.on{opacity:1}
+.intro-video::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 50%,rgba(0,0,0,.1),rgba(0,0,0,.55));pointer-events:none;z-index:0}
+.intro-fill{position:absolute;inset:-12%;width:124%;height:124%;object-fit:cover;filter:blur(26px) saturate(1.3) brightness(.6);opacity:0;transition:opacity 1.2s ease}
+.intro.playing .intro-fill{opacity:1}
+.intro-vid{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:contain;background:transparent}
+.intro.vertical .intro-vid{object-fit:cover}
+@media (min-aspect-ratio:3/4){.intro.vertical .intro-vid{object-fit:contain}}
+.intro-progress{position:absolute;z-index:2;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.16)}
+.intro-progress span{display:block;height:100%;background:#f5f5f7;transform-origin:0 50%;transform:scaleX(0)}
+.intro-top{position:absolute;z-index:3;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:max(14px,env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) 0 max(14px,env(safe-area-inset-left,0px))}
+.intro-pill{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:9px 16px;border-radius:999px;border:0;cursor:pointer;
+  background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
+  color:#fff;font-size:15px;font-weight:600;letter-spacing:-.01em}
+.intro-pill svg{width:20px;height:20px}
+#introSound .waves{display:none}
+#introSound.on .waves{display:inline}
+#introSound.on .x{display:none}
+
+@keyframes iFade{to{opacity:1}}
+@keyframes iTornado{0%{opacity:0;transform:translateY(8vh) scale(.55) rotate(-8deg);filter:blur(16px)}60%{opacity:1;filter:blur(2px)}100%{opacity:1;transform:none;filter:none}}
+@keyframes iWord{0%{opacity:0;clip-path:inset(0 100% 0 0);filter:blur(10px);transform:translateX(-14px)}100%{opacity:1;clip-path:inset(0 0 0 0);filter:none;transform:none}}
+@keyframes iRise{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes iHalo{0%{box-shadow:0 0 0 0 rgba(245,245,247,.45)}70%,100%{box-shadow:0 0 0 18px rgba(245,245,247,0)}}
+@media (prefers-reduced-motion:reduce){
+  .intro-logo .it,.intro-logo .iw,.intro-eyebrow,.intro-hint{animation:iFade .4s ease forwards;clip-path:none;filter:none;transform:none}
+  .intro-go:not([hidden]){animation:none}
+}
+
+/* ---------- ajustes para celular ---------- */
+a,button,label,input{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.control output{white-space:nowrap}
+.control label{align-items:flex-start}
+@media (max-width:560px){
+  .scale{height:36px}
+  .scale span:nth-child(2){left:auto!important;right:0;top:17px;transform:none!important}
+  .hero-sub{font-size:17px}
+  /* el detalle de cada caso sube desde abajo, como una hoja del iPhone */
+  .sheet{align-items:flex-end;padding:0}
+  .sheet-box{border-radius:24px 24px 0 0;max-height:94vh;max-height:94dvh;animation:sheetUp .42s cubic-bezier(.2,.8,.2,1)}
+  .sheet-media{min-height:220px}
+  .sheet-media img,.sheet-media video{max-height:46vh}
+  .sheet-text{padding:24px 20px calc(24px + env(safe-area-inset-bottom,0px))}
+  .sheet-nav .btn{flex:1}
+  .drill{min-height:0;padding:22px 18px}
+  .choice{font-size:16px;padding:14px 16px}
+}
+@keyframes sheetUp{from{transform:translateY(40%);opacity:.4}}
+@media (prefers-reduced-motion:reduce){.sheet-box{animation:none}}
+@media (max-width:820px){
+  .menu{background:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none;max-height:calc(100vh - 52px);max-height:calc(100dvh - 52px);overflow:auto;box-shadow:0 18px 40px rgba(0,0,0,.18)}
+}
+
+</style>
+</head>
+<body>
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Bienvenida a Twisted Winds">
+ <!-- paso 1: bienvenida (habilita el sonido) -->
+ <div class="intro-welcome" id="introWelcome">
+  <canvas id="fxBack" aria-hidden="true"></canvas>
+  <div class="intro-in">
+   <p class="intro-eyebrow">Tornado en una caja · Feria de la ciencia</p>
+   <div class="intro-logo" aria-hidden="true">
+    <img class="it" src="tornado.webp" alt="" width="356" height="506" fetchpriority="high">
+    <img class="iw" src="wordmark.webp" alt="" width="530" height="220">
+   </div>
+   <div class="intro-cta">
+    <div class="intro-load" id="introLoad" role="progressbar" aria-label="Cargando"><span></span></div>
+    <button type="button" class="btn intro-go" id="introGo" hidden>Entrar</button>
+    <p class="intro-hint">Sube el volumen para vivir la experiencia completa.</p>
+   </div>
+  </div>
+  <canvas id="fxFront" class="fx-front" aria-hidden="true"></canvas>
+ </div>
+ <!-- paso 2: video; al terminar, entra a la página -->
+ <div class="intro-video" id="introVideo" hidden>
+  <canvas class="intro-fill" id="introFill" width="16" height="9" aria-hidden="true"></canvas>
+  <video id="introVid" class="intro-vid" src="intro.mp4" poster="intro-inicio.jpg" playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-label="Video de introducción de Twisted Winds"></video>
+  <div class="intro-progress" aria-hidden="true"><span></span></div>
+  <div class="intro-top">
+   <button type="button" class="intro-pill on" id="introSound" aria-pressed="true">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" fill="currentColor"/><g class="waves" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M15.5 9a4.2 4.2 0 0 1 0 6"/><path d="M18 6.5a7.8 7.8 0 0 1 0 11"/></g><path class="x" d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+    <span>Silenciar</span>
+   </button>
+   <button type="button" class="intro-pill" id="introSkip">Saltar</button>
+  </div>
+ </div>
+</div>
+<noscript><style>.intro{display:none!important}html.intro-on{overflow:auto}</style></noscript>
+
+<nav class="nav" aria-label="Secciones">
+ <div class="wrap" style="position:relative">
+  <a class="brand" href="#inicio"><img src="tornado-icon.webp" alt="" width="22" height="31">Twisted Winds</a>
+  <div class="nav-links">
+   <a href="#reglas">Lo importante</a><a href="#colombia">Colombia 2026</a><a href="#sismos">Sismos</a><a href="#fuentes">Fuentes</a>
+  </div>
+  <a class="btn" href="#preparate">Prepárate</a>
+  <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+   <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true"><path d="M1 2h18M1 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <div class="menu" id="menu" hidden>
+   <a href="#reglas">Lo importante</a><a href="#colombia">Colombia 2026</a><a href="#sismos">Sismos</a><a href="#preparate">Prepárate</a><a href="#fuentes">Fuentes</a>
+  </div>
+ </div>
+</nav>
+
+<!-- HERO -->
+<header class="band night hero" id="inicio">
+ <div class="wrap hero-in">
+  <p class="eyebrow">Tornado en una caja · Feria de la ciencia</p>
+  <h1 class="sr-only">Twisted Winds</h1>
+  <div class="logo" role="img" aria-label="Logo de Twisted Winds: un tornado hecho de nubes junto al nombre escrito con letras de nube">
+   <img class="t" src="tornado.webp" alt="" width="356" height="506">
+   <img class="w" src="wordmark.webp" alt="" width="530" height="220">
+  </div>
+  <p class="hero-claim">Saber cómo se mueven el viento y la tierra puede salvar tu vida y tu casa.</p>
+  <p class="hero-sub">Vendavales, tornados y terremotos explicados en palabras sencillas, con casos reales de Colombia y qué hacer en cada momento.</p>
+  <div class="cta-row"><a class="btn" href="#preparate">Prepara tu casa</a><a class="more" href="#sismos">Qué hacer si tiembla</a></div>
+ </div>
+</header>
+
+<!-- REGLAS -->
+<section class="band" id="reglas" aria-labelledby="reglasT">
+ <div class="wrap stack">
+  <div class="head reveal">
+   <p class="eyebrow">Lo más importante</p>
+   <h2 class="h2" id="reglasT">Tres cosas que toda la familia debe saber.</h2>
+  </div>
+  <div class="rules">
+   <article class="rule reveal" style="--c:var(--sky)">
+    <svg viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 18h26a6 6 0 1 0-6-6"/><path d="M5 27h36a6 6 0 1 1-6 6"/><path d="M5 36h18"/></svg>
+    <h3>Si llega un viento fuerte</h3>
+    <p>Entra a la casa y aléjate de puertas y ventanas. No te subas al techo ni salgas a recoger tejas.</p>
+   </article>
+   <article class="rule reveal" style="--c:var(--orange)">
+    <svg viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 28h8l4-12 6 24 6-30 6 26 4-8h12"/></svg>
+    <h3>Si empieza a temblar</h3>
+    <p>Si salir no es seguro: agáchate, cúbrete y agárrate de algo firme. Protege tu cabeza y tu cuello.</p>
+   </article>
+   <article class="rule reveal" style="--c:var(--red)">
+    <p class="big123" aria-hidden="true">123</p>
+    <h3>En una emergencia</h3>
+    <p>Llama a la línea 123. Es la línea de emergencias en Colombia.</p>
+   </article>
+  </div>
+ </div>
+</section>
+
+<!-- COLOMBIA 2026 -->
+<section class="band alt" id="colombia" aria-labelledby="colT">
+ <div class="wrap stack">
+  <div class="head reveal">
+   <p class="eyebrow c-red">Colombia, 2026</p>
+   <h2 class="h2" id="colT">Este año el viento y la tierra golpearon fuerte.</h2>
+   <p class="lead">No es una película. <strong>Pasó aquí, a familias como la tuya.</strong> Estas cifras vienen de la Unidad Nacional para la Gestión del Riesgo, el Dagran y el Servicio Geológico Colombiano.</p>
+  </div>
+  <div class="bento">
+   <div class="tile t-4 reveal">
+    <p class="stat grad">7,4</p>
+    <p><strong>Magnitud del terremoto del 10 de agosto de 2026</strong>, con epicentro en San José del Palmar, Chocó. Fue el sismo más fuerte registrado en Colombia en la última década y se sintió en 16 departamentos.</p>
+    <p class="micro src">OPS, con datos del Servicio Geológico Colombiano</p>
+   </div>
+   <div class="tile t-2 reveal">
+    <p class="stat c-red">335</p>
+    <p><strong>personas murieron</strong> por el terremoto. Hubo 4.516 heridos.</p>
+    <p class="micro src">UNGRD, balance del 15 de septiembre (EFE)</p>
+   </div>
+   <div class="tile t-3 reveal">
+    <p class="stat">36.478</p>
+    <p><strong>viviendas destruidas</strong> por el terremoto, y 206.931 más con daños.</p>
+    <p class="micro src">UNGRD, balance del 15 de septiembre (EFE)</p>
+   </div>
+   <div class="tile t-3 reveal">
+    <p class="stat c-sky">77</p>
+    <p><strong>vendavales en Antioquia</strong> en lo que va de 2026, 24 de ellos entre agosto y septiembre.</p>
+    <p class="micro src">Dagran, balance al 30 de septiembre (El Colombiano)</p>
+   </div>
+   <div class="tile t-2 reveal">
+    <p class="stat c-orange">≈1.000</p>
+    <p><strong>familias afectadas en Urabá</strong> por lluvias y vendavales el primer fin de semana de octubre.</p>
+    <p class="micro src">Dagran (El Colombiano)</p>
+   </div>
+   <div class="tile t-2 reveal">
+    <p class="stat">+5.000</p>
+    <p><strong>tejas entregó la Gobernación</strong> a 375 familias afectadas por vendavales en seis municipios.</p>
+    <p class="micro src">Gobernación de Antioquia y Dagran (Minuto30)</p>
+   </div>
+   <div class="tile t-2 reveal">
+    <p class="stat c-green">83 %</p>
+    <p><strong>de los colombianos vive en zonas de amenaza sísmica</strong> alta o intermedia.</p>
+    <p class="micro src">Servicio Geológico Colombiano (ENTER.CO)</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- SISMOS -->
+<section class="band night" id="sismos" aria-labelledby="sismosT">
+ <div class="wrap stack" style="gap:clamp(56px,8vw,112px)">
+  <div class="stack" style="gap:clamp(32px,5vw,56px)">
+   <div class="head reveal">
+    <p class="eyebrow c-orange">Sismos</p>
+    <h2 class="h2" id="sismosT">La tierra también se mueve.</h2>
+    <p class="lead">El 10 de agosto de 2026, a las 7:34 de la mañana, <strong>un terremoto sacudió a Colombia desde el Chocó.</strong> Se sintió en Medellín, Cali, Pereira y muchas otras ciudades.</p>
+   </div>
+   <div class="quake-hero reveal">
+    <p class="mag grad">7,4<small>Magnitud · 103 km de profundidad</small></p>
+    <div class="qfacts">
+     <div><b>335</b><span>personas fallecidas</span></div>
+     <div><b>4.516</b><span>personas heridas</span></div>
+     <div><b>36.478</b><span>viviendas destruidas</span></div>
+     <div><b>16</b><span>departamentos afectados</span></div>
+    </div>
+   </div>
+   <p class="micro">Magnitud, hora, profundidad y epicentro: Servicio Geológico Colombiano, vía OPS. Víctimas y viviendas: balance de la UNGRD del 15 de septiembre de 2026, vía EFE.</p>
+  </div>
+
+  <div class="stack" style="gap:28px">
+   <div class="head reveal">
+    <h3 class="h2" style="font-size:clamp(30px,4.4vw,52px)">¿Tu celular te va a avisar?</h3>
+    <p class="lead">Depende de tu celular. <strong>En Colombia, el iPhone no trae alertas de sismo.</strong> Muchos Android sí, pero hay que activarlas.</p>
+   </div>
+   <div class="phones">
+    <article class="phone-card reveal">
+     <div class="device droid" aria-hidden="true"><div class="screen">
+      <p class="ttl">Seguridad y emergencia</p>
+      <div class="grp"><div class="r"><i style="width:60%"></i></div><div class="r"><i style="width:72%"></i></div><div class="r"><i style="width:50%"></i></div></div>
+      <div class="grp hl"><div class="r"><b>Alertas de sismos</b><span class="tg"></span></div></div>
+      <div class="grp"><div class="r"><i style="width:66%"></i></div><div class="r"><i style="width:44%"></i></div></div>
+     </div></div>
+     <div class="txt">
+      <span class="chip" style="--c:var(--green)"><i></i>Sí avisa, si la activas</span>
+      <h3>Android</h3>
+      <ol class="steps"><li>Configuración</li><li>Seguridad y emergencia</li><li>Activa “Alertas de sismos”</li></ol>
+      <p class="small">Necesita la <strong>ubicación activada</strong> e <strong>internet</strong> (datos o wifi). En algunos modelos está en Ubicación › Servicios de ubicación › Alertas de terremotos.</p>
+     </div>
+    </article>
+    <article class="phone-card reveal">
+     <div class="device ios" aria-hidden="true"><div class="screen">
+      <p class="ttl">Notificaciones</p>
+      <div class="grp"><div class="r"><i style="width:56%"></i></div><div class="r"><i style="width:70%"></i></div><div class="r"><i style="width:48%"></i></div></div>
+      <p class="hdr">ALERTAS GUBERNAMENTALES</p>
+      <div class="grp hl"><div class="r"><b>Alertas de emergencia</b><span class="tg"></span></div></div>
+      <div class="grp"><div class="r"><i style="width:62%"></i></div></div>
+     </div></div>
+     <div class="txt">
+      <span class="chip" style="--c:var(--red)"><i></i>No avisa sismos en Colombia</span>
+      <h3>iPhone</h3>
+      <p class="small">Apple tiene su sistema de alertas de terremoto en lugares como Estados Unidos o Taiwán, <strong>pero no en Colombia.</strong> Aun así, deja activadas las alertas del gobierno:</p>
+      <ol class="steps"><li>Configuración</li><li>Notificaciones</li><li><span>Alertas gubernamentales <small>(al final de la lista)</small></span></li></ol>
+      <p class="small">Hay apps de terceros en la App Store que avisan de sismos, pero no son del Gobierno ni de Apple.</p>
+     </div>
+    </article>
+   </div>
+  </div>
+
+  <div class="alertx">
+   <div class="head reveal">
+    <h3 class="h2" style="font-size:clamp(30px,4.4vw,52px)">La alerta no adivina el futuro.</h3>
+    <p class="body">Los celulares tienen sensores de movimiento. Cuando muchos sienten una sacudida al mismo tiempo, el sistema calcula dónde fue el sismo y manda la alerta por internet, <strong>unas 60.000 veces más rápido que las ondas sísmicas.</strong></p>
+    <p class="body">Por eso puede llegarte antes de que el temblor llegue a ti. Pero, como explica el Servicio Geológico Colombiano, <strong>cuando la recibes, el sismo ya está ocurriendo.</strong> Nadie puede predecir un terremoto.</p>
+   </div>
+   <div class="race reveal">
+    <div class="control"><label for="dist">¿A qué distancia del epicentro estás? <output id="distV" for="dist">100 km</output></label><input type="range" id="dist" min="10" max="400" step="10" value="100"></div>
+    <div class="track" id="track" aria-hidden="true"><span class="ln"></span><span class="epi"></span><span class="pulse"></span>
+     <svg class="you" viewBox="0 0 30 34"><path d="M3 15L15 4l12 11v17H3z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg></div>
+    <p class="race-big" id="secs">≈ 29 s</p>
+    <p class="small" id="secsTxt"></p>
+    <p class="micro">Aproximación con la velocidad típica de la onda S en la corteza, unos 3,5 km por segundo. No incluye el tiempo que tarda el sistema en detectar el sismo y enviar la alerta.</p>
+   </div>
+  </div>
+
+  <div class="stack" style="gap:28px">
+   <div class="head reveal">
+    <h3 class="h2" style="font-size:clamp(30px,4.4vw,52px)">Agáchate. Cúbrete. Agárrate.</h3>
+    <p class="lead">Si salir no es seguro, <strong>esto es lo que debes hacer mientras tiembla.</strong></p>
+   </div>
+   <div class="dcd">
+    <div class="tile reveal">
+     <svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M60 8v22M51 22l9 9 9-9"/><circle cx="60" cy="52" r="8"/><path d="M42 88q0-24 18-26 18 2 18 26z" fill="currentColor" stroke="none"/><path d="M14 90h92"/></svg>
+     <p class="k">Agáchate</p><p>Ponte de rodillas antes de que el movimiento te tumbe.</p>
+    </div>
+    <div class="tile reveal">
+     <svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 40h88M24 40v50M96 40v50"/><circle cx="58" cy="64" r="7"/><path d="M44 90q1-15 14-16 13 1 14 16z" fill="currentColor" stroke="none"/><path d="M8 90h104" opacity=".5"/></svg>
+     <p class="k">Cúbrete</p><p>Métete debajo de una mesa firme. Protege la cabeza y el cuello.</p>
+    </div>
+    <div class="tile reveal">
+     <svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="shake"><path d="M16 40h88M24 40v50M96 40v50"/></g><circle cx="58" cy="64" r="7"/><path d="M44 90q1-15 14-16 13 1 14 16z" fill="currentColor" stroke="none"/><path d="M68 80l26-10"/><path d="M6 30q-4 6 0 12M114 30q4 6 0 12" opacity=".6"/></svg>
+     <p class="k">Agárrate</p><p>Sujétate de una pata de la mesa hasta que deje de temblar.</p>
+    </div>
+   </div>
+   <p class="small reveal" style="max-width:70ch">Aléjate de ventanas, vidrios y cosas que puedan caer. Si la casa tiene daños y hay una salida segura y directa, sal por la ruta de evacuación hacia el punto de encuentro. <strong>Usa las escaleras, nunca el ascensor.</strong></p>
+  </div>
+
+  <div class="note reveal">
+   <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="14" cy="14" r="12"/><path d="M14 8v8M14 20v.5"/></svg>
+   <div class="small" style="color:var(--ink-2)"><strong style="color:var(--ink)">Lo que viene.</strong> En agosto de 2026 se presentó en el Senado un proyecto de ley para crear un Sistema Nacional de Alerta Sísmica Temprana. Mandaría avisos gratis a todos los celulares, sin importar la marca, y también a la televisión y la radio. Todavía es un proyecto.</div>
+  </div>
+ </div>
+</section>
+
+<!-- PREPÁRATE -->
+<section class="band alt" id="preparate" aria-labelledby="prepT">
+ <div class="wrap stack">
+  <div class="head reveal">
+   <p class="eyebrow c-green">Prepárate</p>
+   <h2 class="h2" id="prepT">¿Tu casa está lista?</h2>
+   <p class="lead">Marca lo que ya tienes. <strong>Cierra los tres anillos con tu familia.</strong></p>
+  </div>
+  <div class="prep">
+   <aside class="rings-card" aria-live="polite">
+    <svg class="rings" viewBox="0 0 200 200" aria-hidden="true">
+     <g transform="rotate(-90 100 100)">
+      <circle class="trk" cx="100" cy="100" r="84" stroke="var(--ring-1)"/><circle class="val" id="ring0" cx="100" cy="100" r="84" stroke="var(--ring-1)"/>
+      <circle class="trk" cx="100" cy="100" r="63" stroke="var(--ring-2)"/><circle class="val" id="ring1" cx="100" cy="100" r="63" stroke="var(--ring-2)"/>
+      <circle class="trk" cx="100" cy="100" r="42" stroke="var(--ring-3)"/><circle class="val" id="ring2" cx="100" cy="100" r="42" stroke="var(--ring-3)"/>
+     </g>
+    </svg>
+    <p class="verdict" id="verdict"></p>
+    <div class="legend" id="legend"></div>
+    <p class="micro" style="text-align:center">Tus marcas se guardan en este dispositivo.</p>
+   </aside>
+   <div class="lists" id="lists"></div>
+  </div>
+  <div class="todo">
+   <div class="head reveal" style="margin-top:clamp(24px,4vw,56px)">
+    <h3 class="h3">Qué hacer durante y después</h3>
+   </div>
+   <div class="seg" role="group" aria-label="Escoge la emergencia" id="todoSeg">
+    <button aria-pressed="true" data-h="viento">Vendaval</button><button aria-pressed="false" data-h="sismo">Terremoto</button>
+   </div>
+   <div class="todo-cols" id="todoCols" aria-live="polite"></div>
+  </div>
+ </div>
+</section>
+
+<!-- CIERRE -->
+<section class="band night close" id="cierre" aria-labelledby="cierreT">
+ <div class="wrap stack">
+  <h2 class="h2 reveal" id="cierreT">No podemos detener el viento ni la tierra. Sí podemos estar preparados.</h2>
+  <p class="lead reveal" style="max-width:36ch">El conocimiento te ayuda a sobrevivir <strong>y a conservar lo que tienes.</strong></p>
+  <div class="reveal" style="display:grid;gap:6px;justify-items:center">
+   <p class="small">En una emergencia en Colombia, llama al</p>
+   <p class="n123 c-red" style="color:var(--night-red)">123</p>
+  </div>
+  <svg class="street" id="street" viewBox="0 0 960 110" aria-hidden="true"></svg>
+  <div style="display:grid;gap:10px;justify-items:center">
+   <button class="btn" id="commit">Me comprometo a preparar mi casa</button>
+   <p class="small" id="commitTxt" aria-live="polite"></p>
+  </div>
+ </div>
+</section>
+
+<!-- FUENTES -->
+<section class="band" id="fuentes" aria-labelledby="fuentesT" style="padding-block:clamp(56px,8vw,96px)">
+ <div class="wrap stack" style="gap:24px">
+  <h2 class="h3" id="fuentesT">Fuentes</h2>
+  <ol class="sources">
+   <li><a href="https://www.paho.org/es/documentos/informe-situacion-7-colombia-terremoto-agosto-2026-4-septiembre-2026" target="_blank" rel="noopener">OPS: Informe de situación 7, terremoto de agosto de 2026</a></li>
+   <li><a href="https://www.elheraldo.co/colombia/2026/09/15/sube-a-335-la-cifra-de-personas-muertas-por-el-terremoto-del-pasado-10-de-agoso/" target="_blank" rel="noopener">El Heraldo (EFE): balance de la UNGRD, 15 de septiembre de 2026</a></li>
+   <li><a href="https://newsroom.rcnradio.com/colombia/fuerte-temblor-hoy-en-colombia-terremoto-de-magnitud-7-4-sacudio-a-cali-medellin-pereira-y-otras-ciudades-del-pais" target="_blank" rel="noopener">RCN Radio: el terremoto sacudió a Cali, Medellín y Pereira (2026)</a></li>
+   <li><a href="https://www.eltiempo.com/vida/ciencia/por-que-el-celular-avisa-de-un-sismo-antes-de-sentirlo-esto-explica-el-servicio-geologico-colombiano-3578097" target="_blank" rel="noopener">El Tiempo: por qué el celular avisa de un sismo, según el SGC (2026)</a></li>
+   <li><a href="https://newsroom.rcnradio.com/colombia/alerta-de-terremoto-paso-a-paso-para-activarla-en-tu-celular-android-y-i-phone-en-colombia" target="_blank" rel="noopener">RCN Radio: cómo activar la alerta en Android y iPhone en Colombia (2026)</a></li>
+   <li><a href="https://www.pulzo.com/tecnologia/sismo-en-colombia-hoy-como-activar-alertas-sismicas-en-android-y-iphone-tras-el-temblor-PP5270499A" target="_blank" rel="noopener">Pulzo: el iPhone no tiene alertas sísmicas nativas en Colombia (2026)</a></li>
+   <li><a href="https://www.publimetro.co/tecnologia/2026/08/10/recibio-la-alerta-del-terremoto-asi-puede-activar-la-alarma-de-sismos-en-su-celular-y-estas-son-las-razones-por-las-que-pudo-no-sonar/" target="_blank" rel="noopener">Publimetro: por qué la alerta pudo no sonar (2026)</a></li>
+   <li><a href="https://www.noticiasrcn.com/economia/alerta-sismica-colombia-celulares-tv-sistema-1051876" target="_blank" rel="noopener">Noticias RCN: proyecto de alerta sísmica nacional (2026)</a></li>
+   <li><a href="https://radionacional.co/actualidad/que-hacer-antes-durante-y-despues-de-un-sismo-recomendaciones-para-estar-preparados" target="_blank" rel="noopener">Radio Nacional: qué hacer antes, durante y después de un sismo (UNGRD, Alcaldía de Bogotá)</a></li>
+   <li><a href="https://www.enter.co/?p=584959" target="_blank" rel="noopener">ENTER.CO: el 83 % de los colombianos vive en zonas de riesgo sísmico (2026)</a></li>
+   <li><a href="https://www.elcolombiano.com/antioquia/vendavales-y-aguaceros-en-antioquia-2026-dejan-375-familias-afectadas-JH41759374" target="_blank" rel="noopener">El Colombiano: 77 vendavales y 375 familias afectadas en Antioquia (2026)</a></li>
+   <li><a href="https://www.minuto30.com/mas-de-5-000-tejas-y-328-kits-antioquia-lleva-ayudas-a-familias-afectadas-por-vendavales/1721185/" target="_blank" rel="noopener">Minuto30: más de 5.000 tejas para familias afectadas (2026)</a></li>
+   <li><a href="https://www.elcolombiano.com/antioquia/1000-familias-damnificadas-lluvias-uraba-antioquia-primer-fin-de-semana-octubre-que-paso-LP41930946" target="_blank" rel="noopener">El Colombiano: cerca de 1.000 familias afectadas en Urabá (2026)</a></li>
+   <li><a href="https://www.teleantioquia.co/noticias/vendavales-golpearon-el-suroeste-antioqueno-25-familias-afectadas-en-santa-barbara-y-casas-destechadas-en-amaga-597003" target="_blank" rel="noopener">Teleantioquia: emergencias en Antioquia y recomendaciones del Dagran</a></li>
+   <li><a href="https://www.semana.com/nacion/cartagena/articulo/ojo-estas-son-las-medidas-de-prevencion-para-la-temporada-invernal-en-cartagena/202214/" target="_blank" rel="noopener">Semana: medidas de prevención ante vendavales</a></li>
+   <li><a href="https://vanguardia.com/colombia/gestion-del-riesgo-emitio-recomendaciones-que-deben-acatarse-en-la-ola-invernal-KB5012851" target="_blank" rel="noopener">Vanguardia: recomendaciones de la UNGRD</a></li>
+  </ol>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <p><b>Twisted Winds</b> · Tornado en una caja. Proyecto para la feria de la ciencia.</p>
+  <p>Los datos de esta página vienen de las fuentes citadas arriba. En una emergencia en Colombia, llama al 123.</p>
+ </div>
+</footer>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function seg(el,cb){const bs=[...el.querySelectorAll('button')];bs.forEach(b=>b.addEventListener('click',()=>{bs.forEach(x=>x.setAttribute('aria-pressed',x===b));cb(b)}))}
+function rangeFill(r){const p=(r.value-r.min)/(r.max-r.min)*100;r.style.setProperty('--p',p+'%')}
+$$('input[type=range]').forEach(r=>{rangeFill(r);r.addEventListener('input',()=>rangeFill(r))});
+
+/* ---------- menu ---------- */
+const menuBtn=$('#menuBtn'),menu=$('#menu');
+menuBtn.addEventListener('click',()=>{const open=menu.hidden;menu.hidden=!open;menuBtn.setAttribute('aria-expanded',open)});
+menu.addEventListener('click',e=>{if(e.target.matches('a')){menu.hidden=true;menuBtn.setAttribute('aria-expanded','false')}});
+
+/* ---------- segundos de ventaja ---------- */
+const dist=$('#dist'),track=$('#track');
+function quake(){const d=+dist.value,s=Math.round(d/3.5);$('#distV').textContent=d+' km';$('#secs').textContent='≈ '+s+' s';
+ $('#secsTxt').textContent=s<10?'Es lo que tarda la sacudida fuerte en llegar. Tan cerca del epicentro, la alerta puede llegarte tarde o no llegar a tiempo. Por eso, apenas sientas el movimiento: agáchate, cúbrete y agárrate.':'Es lo que tarda la sacudida fuerte en llegar desde el epicentro. Si la alerta te llega antes, esos segundos alcanzan para agacharte, cubrirte y agarrarte.';
+ const w=track.clientWidth||300,pos=14+(w-36)*(d-10)/390;track.querySelector('.you').style.left=pos+'px';
+ const pu=track.querySelector('.pulse');pu.style.setProperty('--to',Math.max(0,pos-22)+'px');pu.style.setProperty('--t',Math.max(.6,s/12).toFixed(2)+'s')}
+dist.addEventListener('input',quake);addEventListener('resize',quake);quake();
+
+/* ---------- prepárate ---------- */
+const GROUPS=[
+ {id:'casa',name:'Techo y casa',hint:'Para el viento',c:'var(--ring-1)',items:[
+  'El techo está amarrado a las vigas, las vigas a las columnas y las columnas al piso.',
+  'No hay piedras ni ladrillos sueltos sobre el techo. Con viento se vuelven proyectiles.',
+  'Revisamos y cambiamos las tejas rotas o sueltas.',
+  'Los árboles cerca de la casa están podados y revisados.',
+  'Revisamos si la casa tiene grietas o daños en su estructura.']},
+ {id:'plan',name:'Plan familiar',hint:'Para cualquier emergencia',c:'var(--ring-2)',items:[
+  'Tenemos un plan con rutas de evacuación y cada persona sabe qué hacer.',
+  'Acordamos un punto de encuentro seguro.',
+  'Sabemos cuáles son los lugares seguros y las zonas de riesgo dentro y fuera de la casa.',
+  'Todos sabemos que la línea de emergencias es el 123.',
+  'Activamos las alertas de sismos en los celulares de la familia.']},
+ {id:'kit',name:'Kit de emergencia',hint:'Lo que recomienda la UNGRD',c:'var(--ring-3)',items:[
+  'Botiquín y medicamentos.','Alimentos que no se dañen.','Agua potable.','Documentos.','Ropa e impermeable.','Linterna.','Radio.','Silbato.','Artículos de higiene personal.']}];
+const KEY='twisted-winds-prep-v1';let done=new Set(store.get(KEY,[]));
+const CHECK='<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const lists=$('#lists');
+GROUPS.forEach(g=>{const card=document.createElement('section');card.className='list-card';card.style.setProperty('--c',g.c);
+ card.innerHTML='<header><h3><i></i></h3><span class="small" data-count></span></header><p class="micro"></p><ul class="checks"></ul>';
+ card.querySelector('h3').append(g.name);card.querySelector('.micro').textContent=g.hint;
+ const ul=card.querySelector('ul');g.items.forEach((t,k)=>{const id=g.id+'-'+k;const li=document.createElement('li');
+  li.innerHTML='<label for="'+id+'"><input type="checkbox" id="'+id+'"><span class="box">'+CHECK+'</span><span></span></label>';
+  li.querySelector('label > span:last-child').textContent=t;const inp=li.querySelector('input');inp.checked=done.has(id);
+  inp.addEventListener('change',()=>{inp.checked?done.add(id):done.delete(id);store.set(KEY,[...done]);rings()});ul.appendChild(li)});
+ lists.appendChild(card)});
+const RADII=[84,63,42];
+function rings(){let tot=0,all=0;const leg=$('#legend');leg.innerHTML='';
+ GROUPS.forEach((g,k)=>{const n=g.items.filter((_,i)=>done.has(g.id+'-'+i)).length;tot+=n;all+=g.items.length;
+  const C=2*Math.PI*RADII[k],el=$('#ring'+k);el.style.strokeDasharray=C;el.style.strokeDashoffset=C*(1-n/g.items.length);
+  if(n===0)el.style.strokeDashoffset=C-0.001;
+  $$('.list-card')[k].querySelector('[data-count]').textContent=n+' de '+g.items.length;
+  const d=document.createElement('div');d.style.setProperty('--c',g.c);d.innerHTML='<span><i></i></span><b></b>';d.querySelector('span').append(g.name);d.querySelector('b').textContent=n+'/'+g.items.length;leg.appendChild(d)});
+ $('#verdict').textContent=tot===all?'Casa preparada':tot>=all*.6?'Casi lista':tot>0?'Vas en camino':'Empieza hoy';
+ $('#verdict').style.color=tot===all?'var(--green)':tot>=all*.6?'var(--orange)':'var(--ink)'}
+rings();
+
+const TODO={
+ viento:{d:['Quédate dentro, en la parte más firme de la casa y lejos de ventanas y vidrios.','No salgas a recoger tejas o cosas que se estén volando.','Aléjate de árboles, postes y cables eléctricos.','En tormenta eléctrica, no te acerques a objetos que puedan atraer rayos.'],
+  a:['Nunca toques cables caídos: avisa a la empresa de energía.','Reporta los daños a la oficina de gestión del riesgo de tu municipio o llama a la línea 123.','No te subas al techo a arreglarlo sin ayuda de un adulto con equipo de seguridad.','Ayuda a tus vecinos: después de un vendaval, la comunidad se recupera más rápido junta.']},
+ sismo:{d:['Mantén la calma y protégete de las cosas que puedan caer.','Si salir no es seguro: agáchate, cúbrete y agárrate de algo firme. Protege la cabeza y el cuello.','Aléjate de ventanas, vidrios y objetos que puedan caer.','Si la casa tiene daños y hay una salida segura y directa, sal por la ruta de evacuación. Usa las escaleras, nunca el ascensor.'],
+  a:['Prepárate para las réplicas: puede volver a temblar.','Usa el teléfono solo si es necesario, para no congestionar las redes.','Infórmate por canales oficiales y no compartas rumores.','Si la casa tiene daños, sal y, si es seguro, cierra los registros de gas y de energía.','No toques ni pises cables caídos.','Avisa a las autoridades si hay personas atrapadas. No intentes rescatarlas si no tienes entrenamiento.']}};
+function todo(h){const t=TODO[h],box=$('#todoCols');box.innerHTML='';
+ [['Durante',t.d],['Después',t.a]].forEach(([h3,items])=>{const tile=document.createElement('div');tile.className='tile';tile.innerHTML='<h4 class="h3" style="font-size:24px"></h4><ul></ul>';tile.querySelector('h4').textContent=h3;
+  const ul=tile.querySelector('ul');items.forEach(x=>{const li=document.createElement('li');li.textContent=x;ul.appendChild(li)});box.appendChild(tile)})}
+seg($('#todoSeg'),b=>todo(b.dataset.h));todo('viento');
+
+/* ---------- compromiso ---------- */
+const street=$('#street'),NH=16;let svg='';
+for(let k=0;k<NH;k++){const x=k*60+8,h=38+((k*7)%3)*9,y=104-h;svg+='<g class="house"><rect class="w" x="'+x+'" y="'+y+'" width="44" height="'+h+'" rx="2"/><path d="M'+(x-4)+' '+y+'L'+(x+22)+' '+(y-20)+'L'+(x+48)+' '+y+'Z" stroke-linejoin="round"/><rect class="v" x="'+(x+14)+'" y="'+(y+10)+'" width="16" height="13" rx="1"/></g>'}
+street.innerHTML=svg+'<path d="M0 105H960" stroke="var(--night-line)" stroke-width="2"/>';
+const CK='twisted-winds-compromisos';let commits=+store.get(CK,0)||0;
+function paintCommit(){$$('#street .house').forEach((g,k)=>g.classList.toggle('ready',k<commits));
+ $('#commitTxt').textContent=commits===0?'Sé la primera persona en comprometerse. Se cuenta en este dispositivo.':commits===1?'1 casa más preparada en este dispositivo.':commits+' casas más preparadas en este dispositivo.'}
+$('#commit').addEventListener('click',()=>{commits++;store.set(CK,commits);paintCommit()});paintCommit();
+})();
+</script>
+
+<script src="supabase.js"></script>
+<script src="simulacro.js"></script>
+<script>
+
+/* ---------- intro: bienvenida → video con sonido → página ---------- */
+(function(){
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const intro=document.getElementById('intro');
+const SIM=window.TWSimulacro;
+if(SIM)SIM.escuchar();
+if(!intro){if(SIM)SIM.listo();return}
+const q=s=>intro.querySelector(s);
+const root=document.documentElement;root.classList.add('intro-on');
+const welcome=q('#introWelcome'),go=q('#introGo'),load=q('#introLoad'),loadFill=load.querySelector('span');
+const tImg=q('.it'),logo=q('.intro-logo');
+const stage=q('#introVideo'),vid=q('#introVid'),snd=q('#introSound'),skip=q('#introSkip'),bar=q('.intro-progress span');
+const fill=q('#introFill'),fc=fill.getContext('2d');
+
+/* --- partículas del remolino (dos lienzos: detrás y delante del tornado) --- */
+const fx=(function(){
+ const back=q('#fxBack'),front=q('#fxFront');
+ const bc=back.getContext('2d'),fcx=front.getContext('2d');
+ let W=0,H=0,raf=0,run=false,last=0,boost=0;
+ const g={cx:0,top:0,bot:0,rt:0,rb:0};
+ function mk(c0,c1){const c=document.createElement('canvas');c.width=c.height=32;const s=c.getContext('2d'),gr=s.createRadialGradient(16,16,0,16,16,16);gr.addColorStop(0,c0);gr.addColorStop(.45,c1);gr.addColorStop(1,'rgba(255,255,255,0)');s.fillStyle=gr;s.fillRect(0,0,32,32);return c}
+ const sprite=mk('rgba(255,255,255,1)','rgba(255,255,255,.5)'),skySprite=mk('rgba(170,204,240,1)','rgba(157,191,227,.45)');
+ const P=[];
+ function funnel(p,fresh){p.k=0;p.h=fresh?Math.random()*.05:Math.random();p.a=Math.random()*6.283;p.sz=Math.random();p.j=.95+Math.random()*.55;p.v=.6+Math.random()*.8;p.sky=Math.random()<.28}
+ function dust(p){p.k=1;p.h=Math.random()*.1;p.a=Math.random()*6.283;p.sz=Math.random();p.j=1.6+Math.random()*1.6;p.v=.4+Math.random()*.6;p.sky=Math.random()<.5}
+ function speck(p){p.k=2;p.x=Math.random()*W;p.y=Math.random()*H;p.sz=Math.random();p.v=.3+Math.random()*1.2}
+ function geo(){const lr=logo.getBoundingClientRect();const w=tImg.offsetWidth||lr.width*.5,h=tImg.offsetHeight||lr.height;
+  const left=lr.left+tImg.offsetLeft,top=lr.top+tImg.offsetTop;g.cx=left+w*.52;g.top=top+h*.05;g.bot=top+h*.97;g.rt=w*.66;g.rb=Math.max(6,w*.05)}
+ function size(){const d=Math.min(2,window.devicePixelRatio||1);W=innerWidth;H=innerHeight;
+  [back,front].forEach(c=>{c.width=Math.round(W*d);c.height=Math.round(H*d)});[bc,fcx].forEach(c=>c.setTransform(d,0,0,d,0,0));geo()}
+ function init(){size();P.length=0;const n=W<500?210:300;
+  for(let i=0;i<n;i++){const p={};funnel(p,false);P.push(p)}
+  for(let i=0;i<46;i++){const p={};dust(p);P.push(p)}
+  for(let i=0;i<40;i++){const p={};speck(p);P.push(p)}}
+ function draw(dt){bc.clearRect(0,0,W,H);fcx.clearRect(0,0,W,H);const sp=1+boost;
+  for(const p of P){
+   if(p.k===2){p.x+=p.v*sp*dt*1.4;p.y+=Math.sin((p.x+p.sz*400)/90)*.3*dt;if(p.x>W+10){p.x=-10;p.y=Math.random()*H}
+    bc.globalAlpha=.10+.18*p.sz;const s=2+p.sz*3;bc.drawImage(skySprite,p.x-s,p.y-s,s*2,s*2);continue}
+   p.h+=(p.k===1?.0006:.0016)*p.v*sp*dt;
+   if(p.h>1||(p.k===1&&p.h>.14)){p.k===1?dust(p):funnel(p,true)}
+   const r=(g.rb+(g.rt-g.rb)*Math.pow(p.h,1.7))*p.j*(1+boost*.35);
+   p.a+=Math.min(.22,(2.1*p.v*sp)/Math.max(r,8))*dt;
+   const depth=Math.sin(p.a),x=g.cx+Math.cos(p.a)*r,y=g.bot-p.h*(g.bot-g.top)+depth*r*.12;
+   let al=(p.k===1?.3:.5)*(.35+.65*(depth+1)/2);
+   if(p.h<.06)al*=p.h/.06;if(p.k===0&&p.h>.9)al*=(1-p.h)/.1;
+   const s=(1.3+p.sz*2.6)*(.7+.45*(depth+1)/2)*(p.k===1?1.4:(.7+.9*p.h));
+   const c=depth>.2?fcx:bc;c.globalAlpha=Math.max(0,al);c.drawImage(p.sky?skySprite:sprite,x-s,y-s,s*2,s*2)}
+  bc.globalAlpha=fcx.globalAlpha=1}
+ function loop(t){if(!run)return;const dt=last?Math.min(3,(t-last)/16.67):1;last=t;draw(dt);raf=requestAnimationFrame(loop)}
+ init();addEventListener('resize',size);tImg.addEventListener('load',geo);
+ if(reduce)draw(1);else{run=true;raf=requestAnimationFrame(loop)}
+ return{
+  burst(){if(reduce)return;const t0=performance.now();(function up(){const k=Math.min(1,(performance.now()-t0)/600);boost=3.2*k*k;if(k<1&&run)requestAnimationFrame(up)})()},
+  stop(){run=false;cancelAnimationFrame(raf)}}
+})();
+
+/* --- carga: imágenes, letra y el video; mínimo 2,3 s para que se vea la animación --- */
+let videoOk=true,videoReady=false;
+const steps=['tornado.webp','wordmark.webp','tornado-icon.webp'];
+const total=steps.length+2;let n=0,shown=false;const t0=performance.now();
+function tick(){n++;loadFill.style.width=Math.round(Math.min(n,total)/total*100)+'%';if(n>=total)setTimeout(showGo,Math.max(0,(reduce?600:2300)-(performance.now()-t0)))}
+steps.forEach(s=>{const im=new Image();im.onload=im.onerror=tick;im.src=s});
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(tick,tick);
+function vReady(){if(videoReady)return;videoReady=true;tick()}
+vid.addEventListener('canplaythrough',vReady);
+vid.addEventListener('error',()=>{videoOk=false;vReady()});
+setTimeout(vReady,5000);   /* algunos celulares no precargan el video antes del toque */
+setTimeout(showGo,8000);   /* por si algo tarda demasiado */
+function showGo(){if(shown)return;shown=true;loadFill.style.width='100%';load.classList.add('done');setTimeout(()=>{load.hidden=true;go.hidden=false},260)}
+
+/* --- video --- */
+let started=false,entered=false,everPlayed=false,raf=0,lastDraw=0;
+function shape(){if(!vid.videoWidth)return;const v=vid.videoHeight>vid.videoWidth;intro.classList.toggle('vertical',v);fill.width=v?9:16;fill.height=v?16:9}
+vid.addEventListener('loadedmetadata',shape);shape();
+function drawFill(t){if(entered)return;if(t-lastDraw>90&&vid.readyState>=2){try{fc.drawImage(vid,0,0,fill.width,fill.height)}catch(e){}lastDraw=t}raf=requestAnimationFrame(drawFill)}
+function paintSound(){const on=!vid.muted;snd.classList.toggle('on',on);snd.setAttribute('aria-pressed',String(on));snd.querySelector('span').textContent=on?'Silenciar':'Activar sonido'}
+vid.addEventListener('playing',()=>{everPlayed=true;intro.classList.add('playing');cancelAnimationFrame(raf);raf=requestAnimationFrame(drawFill)});
+vid.addEventListener('pause',()=>cancelAnimationFrame(raf));
+vid.addEventListener('timeupdate',()=>{const d=vid.duration;if(d)bar.style.transform='scaleX('+Math.min(1,vid.currentTime/d)+')'});
+vid.addEventListener('ended',()=>enterPage());
+vid.addEventListener('error',()=>{if(started)enterPage()});
+snd.addEventListener('click',()=>{vid.muted=!vid.muted;paintSound();if(vid.paused&&!vid.ended)vid.play().catch(()=>{})});
+skip.addEventListener('click',()=>enterPage());
+
+/* --- mantener la pantalla encendida mientras la página está abierta --- */
+async function wake(){try{if('wakeLock' in navigator&&!document.hidden)await navigator.wakeLock.request('screen')}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(started&&!document.hidden)wake()});
+
+/* Toque en "Entrar": habilita el sonido (también el de la sirena) y arranca el video. */
+go.addEventListener('click',()=>{
+ if(started)return;started=true;
+ if(SIM)SIM.desbloquear();
+ wake();
+ fx.burst();
+ if(!videoOk){enterPage();return}
+ vid.muted=false;paintSound();
+ const p=vid.play();
+ if(p&&p.catch)p.catch(()=>{vid.muted=true;paintSound();vid.play().catch(()=>enterPage())});
+ stage.hidden=false;
+ requestAnimationFrame(()=>requestAnimationFrame(()=>stage.classList.add('on')));
+ welcome.classList.add('out');
+ setTimeout(()=>{fx.stop();welcome.remove()},650);
+ setTimeout(()=>{if(!everPlayed)enterPage()},10000); /* internet muy lento: no dejar a nadie esperando */
+});
+
+function enterPage(){
+ if(entered)return;entered=true;started=true;
+ try{vid.pause()}catch(e){}
+ wake();
+ intro.classList.add('out');
+ root.classList.remove('intro-on');
+ if(SIM)SIM.listo();
+ setTimeout(()=>{cancelAnimationFrame(raf);fx.stop();try{vid.removeAttribute('src');vid.load()}catch(e){}intro.remove()},760);
+}
+})();
+
+</script>
+</body>
+</html>
