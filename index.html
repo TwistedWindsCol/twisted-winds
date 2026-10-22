@@ -426,8 +426,8 @@ html.intro-on{overflow:hidden}
 .intro-go::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 2px rgba(245,245,247,.55);opacity:0;pointer-events:none}
 .intro-go:not([hidden]){animation:iRise 600ms var(--ease-out) both}
 .intro-go:not([hidden])::after{animation:iHalo 2600ms 900ms var(--ease-out) infinite}
-.intro-hint{display:flex;align-items:center;gap:8px;font-size:14px;color:#8d8d93;opacity:0;animation:iFade 600ms 2200ms ease forwards;max-width:34ch;text-wrap:balance;text-align:left}
-.intro-hint svg{flex:none;width:18px;height:18px}
+.intro-hint{display:block;width:100%;max-width:30ch;margin-inline:auto;font-size:14px;line-height:1.45;color:#8d8d93;opacity:0;animation:iFade 600ms 2200ms ease forwards;text-wrap:balance;text-align:center}
+.intro-hint svg{display:inline-block;width:18px;height:18px;margin-right:6px;vertical-align:-4px}
 .intro-hint .wv{animation:wv 1.6s ease-in-out infinite}
 .intro-hint .wv+.wv{animation-delay:.2s}
 @keyframes wv{0%,100%{opacity:.25}50%{opacity:1}}
