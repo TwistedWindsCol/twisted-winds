@@ -79,6 +79,7 @@ h2{font-size:clamp(26px,7vw,34px);font-weight:700}
 .puntaje .u{font-size:15px;color:var(--muted);font-weight:500}
 .record{margin:0;font-size:15px;color:var(--muted)}
 .record.nuevo{color:var(--gold);font-weight:600}
+#finNivel{color:#d2d2d7;font-weight:600}
 .guardar{width:100%;display:flex;flex-direction:column;gap:10px}
 .guardar label{font-size:15px;font-weight:600;color:#d2d2d7}
 .fila{display:flex;gap:8px}
@@ -103,10 +104,17 @@ h2{font-size:clamp(26px,7vw,34px);font-weight:700}
 .ayuda{position:fixed;z-index:4;left:50%;bottom:max(18%,env(safe-area-inset-bottom));transform:translateX(-50%);pointer-events:none;
   background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:12px 20px;font-size:18px;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:10px;transition:opacity .4s}
 .ayuda.fuera{opacity:0}
+.nivel{position:fixed;z-index:4;left:50%;top:calc(max(12px,env(safe-area-inset-top)) + 118px);width:min(calc(100vw - 32px),420px);pointer-events:none;
+  background:rgba(0,0,0,.6);color:#fff;border-radius:18px;padding:12px 18px;text-align:center;opacity:0;transform:translate(-50%,-10px);transition:opacity .35s var(--ease-out),transform .45s var(--ease-out)}
+.nivel.ver{opacity:1;transform:translate(-50%,0)}
+.nivel p{margin:0}
+.nivel .n{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.01em;color:var(--gold)}
+.nivel .d{font-size:16px;line-height:1.35;margin-top:2px}
 .ayuda svg{width:26px;height:26px;animation:toque 1s ease-in-out infinite}
 @keyframes toque{0%,100%{transform:translateY(0)}50%{transform:translateY(4px) scale(.94)}}
 #pausa{background:rgba(0,0,0,.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 @media (max-height:560px){
+  .nivel{top:calc(max(12px,env(safe-area-inset-top)) + 62px)}
   .columna{gap:10px;justify-content:flex-start}
   .logo{flex-direction:row;gap:14px;margin-top:0}
   .logo .tor{width:auto;height:min(24vh,92px)}
@@ -133,6 +141,7 @@ h2{font-size:clamp(26px,7vw,34px);font-weight:700}
 
 <button class="hud-btn" id="sonidoBtn" type="button" aria-label="Quitar sonido" hidden></button>
 <button class="hud-btn" id="pausaBtn" type="button" aria-label="Pausar" hidden><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg></button>
+<div class="nivel" id="nivel" aria-live="polite"><p class="n"></p><p class="d"></p></div>
 <div class="ayuda fuera" id="ayuda" hidden aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1-6 6h-.5a6 6 0 0 1-4.6-2.2L4.6 15a1.6 1.6 0 0 1 2.4-2l2 2"/></svg>Toca para saltar</div>
 
 <!-- ===================== INICIO ===================== -->
@@ -144,7 +153,7 @@ h2{font-size:clamp(26px,7vw,34px);font-weight:700}
   </div>
   <p class="eyebrow">El juego</p>
   <h1 id="inicioT">Escapa del tornado</h1>
-  <p class="lead">Toca la pantalla para saltar. Recoge estas cosas para ganar más puntos:</p>
+  <p class="lead">Toca la pantalla para saltar, y otra vez en el aire para un doble salto. Tienes 3 vidas y cada 30 segundos sube el nivel.</p>
   <ul class="objetos" id="objetos"></ul>
   <button class="boton principal grande" id="jugar" type="button">
    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
@@ -174,6 +183,7 @@ h2{font-size:clamp(26px,7vw,34px);font-weight:700}
   <img class="letras" id="letras" alt="Twisted Winds">
   <h2 id="finT">¡El tornado te alcanzó!</h2>
   <div class="puntaje"><span class="n" id="finPts">0</span><span class="u">puntos</span></div>
+  <p class="record" id="finNivel"></p>
   <p class="record" id="finRecord"></p>
   <form class="guardar" id="guardar" autocomplete="off">
    <label for="nombre">Escribe tu nombre para el ranking</label>
@@ -223,12 +233,23 @@ var CONSEJOS = [
    Ajustes del juego (unidades = pixeles del pixel art)
    ===================================================================== */
 var MIN_W = 520, MIN_H = 330;          // lo mínimo que se ve del mundo
-var G = 1750, SALTO = 800;             // gravedad y fuerza del salto (alto ≈ 183)
-var VEL0 = 200, VELMAX = 315, RAMPA = 110;   // velocidad inicial, máxima y segundos para llegar
+var G = 1750, SALTO = 690, DOBLE = 560;   // gravedad, salto (alto ≈ 136) y doble salto
 var PASO = 120;                        // distancia de un ciclo de caminar (6 cuadros)
-var UNIDADES_POR_PUNTO = 30, BONO = 25;
-var GAPS_DESDE = 5200;                 // los huecos con agua empiezan después de esto
-var TEJAS_DESDE = 2600;
+var NIVEL_SEG = 30;                    // cada nivel dura 30 segundos
+var VIDAS = 3;
+var UNIDADES_POR_PUNTO = 50, BONO = 10;
+/* lo nuevo que trae cada nivel (se muestra al empezarlo) */
+var NIVELES = [
+  null,
+  ['Nivel 1', 'Salta los obstáculos. En el aire, toca otra vez para un doble salto.'],
+  ['Nivel 2', '¡Vuelan tejas! Sáltalas. Y cuidado con el agua.'],
+  ['Nivel 3', 'Si pisas el barro, te resbalas. Los ríos anchos se pasan con doble salto.'],
+  ['Nivel 4', 'Tejas altas: ¡no saltes cuando pasen!'],
+  ['Nivel 5', 'La tormenta empeora. Todo va más rápido.']
+];
+function nivelDe(t) { return Math.floor(t / NIVEL_SEG) + 1; }
+/* la velocidad sube en cada nivel y nunca deja de subir */
+function velocidad(t) { var n = t / NIVEL_SEG; return Math.min(470, 215 + 30 * Math.min(n, 4) + 14 * Math.max(0, n - 4)); }
 
 var $ = function (s) { return document.querySelector(s); };
 var cv = $('#lienzo'), ctx = cv.getContext('2d', { alpha: false });
@@ -428,8 +449,51 @@ var FUENTE = {
   '8': ['01110', '10001', '10001', '01110', '10001', '10001', '01110'],
   '9': ['01110', '10001', '10001', '01111', '00001', '00010', '01100'],
   '+': ['00000', '00100', '00100', '11111', '00100', '00100', '00000'],
-  '!': ['01110', '01110', '01110', '00100', '00100', '00000', '00100']
+  '!': ['01110', '01110', '01110', '00100', '00100', '00000', '00100'],
+  '♥': ['00000', '01010', '11111', '11111', '01110', '00100', '00000'],
+  'A': ['01110', '10001', '10001', '11111', '10001', '10001', '10001'],
+  'C': ['01110', '10001', '10000', '10000', '10000', '10001', '01110'],
+  'E': ['11111', '10000', '10000', '11110', '10000', '10000', '11111'],
+  'I': ['01110', '00100', '00100', '00100', '00100', '00100', '01110'],
+  'L': ['10000', '10000', '10000', '10000', '10000', '10000', '11111'],
+  'N': ['10001', '11001', '10101', '10011', '10001', '10001', '10001'],
+  'O': ['01110', '10001', '10001', '10001', '10001', '10001', '01110'],
+  'S': ['01111', '10000', '10000', '01110', '00001', '00001', '11110'],
+  'V': ['10001', '10001', '10001', '01010', '01010', '00100', '00100']
 };
+/* corazones de las vidas y el casco (dibujados aquí, en pixel art) */
+var COR_PAL = { o: '#1b2433', R: '#ff4d5e', w: '#ffc2c9', e: '#4a5163' };
+var CORAZON = mapa(['.oo...oo.', 'oRRo.oRRo', 'oRwRoRRRo', 'oRRRRRRRo', '.oRRRRRo.', '..oRRRo..', '...oRo...', '....o....'], COR_PAL);
+var CORAZON_VACIO = mapa(['.oo...oo.', 'oeeo.oeeo', 'oeeeoeeeo', 'oeeeeeeeo', '.oeeeeeo.', '..oeeeo..', '...oeo...', '....o....'], COR_PAL);
+var CASCO = mapa([
+  '........oooo........',
+  '.....oooYYYYooo.....',
+  '....oYYyYYYYYYYo....',
+  '...oYyyYYYYYYYYho...',
+  '..oYyYYYYYYYYYYYho..',
+  '..oYYYYYYYYYYYYYho..',
+  '..oYYYYYYYYYYYYYYho.',
+  'oooYYYYYYYYYYYYYYooo',
+  'oYYYYYYYYYYYYYYYYYYo',
+  'oooooooooooooooooooo'
+], { o: '#2a2a2a', Y: '#ffcc1f', y: '#fff2a8', h: '#d49a00' });
+/* barro: un charco plano sobre el pasto */
+var barrosImg = {};
+function barroImg(w) {
+  if (barrosImg[w]) return barrosImg[w];
+  barrosImg[w] = pix(w, 11, function (x, y) {
+    var t = Math.abs(x + 0.5 - w / 2) / (w / 2), top = 1 + Math.round(t * t * t * 6);
+    if (y < top || (y >= 9 && t > 0.88)) return null;
+    if (y === top || x === 0 || x === w - 1) return '#3e2414';
+    if (y >= 9) return '#4a2c1a';
+    var burbuja = ((x * 5) % 23 < 3) && (y === top + 2 || y === top + 3);
+    if (burbuja) return (y === top + 2) ? '#c08a56' : '#5a3720';
+    if (y === top + 1 && x % 13 < 6) return '#a8774a';
+    if ((x * 7 + y * 13) % 31 === 0) return '#9a6a3e';
+    return y > 6 ? '#5f3a22' : '#7a4c2c';
+  });
+  return barrosImg[w];
+}
 var textos = {}, nTextos = 0;
 function texto(str, col) {
   var key = str + col;
@@ -487,7 +551,13 @@ var sonar = {
   objeto: function () { tono(880, 900, 0.08, 'triangle', 0.12); tono(1320, 1340, 0.12, 'triangle', 0.12, 0.08); },
   golpe: function () { tono(180, 60, 0.28, 'sawtooth', 0.08); },
   agua: function () { tono(600, 150, 0.3, 'sine', 0.12); },
-  atrapado: function () { tono(500, 70, 0.9, 'sawtooth', 0.07); }
+  atrapado: function () { tono(500, 70, 0.9, 'sawtooth', 0.07); },
+  doble: function () { tono(520, 980, 0.12, 'square', 0.045); },
+  vida: function () { tono(660, 680, 0.08, 'triangle', 0.12); tono(880, 900, 0.08, 'triangle', 0.12, 0.08); tono(1320, 1340, 0.14, 'triangle', 0.12, 0.16); },
+  casco: function () { tono(1400, 500, 0.18, 'triangle', 0.11); },
+  barro: function () { tono(240, 80, 0.3, 'sine', 0.14); },
+  nivel: function () { tono(523, 530, 0.1, 'square', 0.04); tono(659, 665, 0.1, 'square', 0.04, 0.1); tono(784, 790, 0.18, 'square', 0.04, 0.2); },
+  trueno: function () { tono(90, 30, 1.4, 'sawtooth', 0.06); }
 };
 function vientoVolumen(v) {
   if (!AU.vientoGain || !AU.ctx) return;
@@ -539,10 +609,17 @@ function hacerFondo() {
    ===================================================================== */
 var ATL = new Image(), atlasListo = false, SPR = {};
 for (var k in META) { var m = META[k]; SPR[k] = { x: m[0], y: m[1], w: m[2], h: m[3], a: m[4], f: m[5] }; }
-function spr(nombre, x, y) { var s = SPR[nombre]; bx.drawImage(ATL, s.x, s.y, s.w, s.h, Math.round(x), Math.round(y), s.w, s.h); }
+SPR.casco = { c: CASCO, w: CASCO.width, h: CASCO.height };
+function spr(nombre, x, y) {
+  var s = SPR[nombre];
+  if (s.c) bx.drawImage(s.c, Math.round(x), Math.round(y));
+  else bx.drawImage(ATL, s.x, s.y, s.w, s.h, Math.round(x), Math.round(y), s.w, s.h);
+}
 function sprURL(nombre, escala) {
   var s = SPR[nombre], c = lienzo(s.w * escala, s.h * escala), g = c.getContext('2d');
-  g.imageSmoothingEnabled = false; g.drawImage(ATL, s.x, s.y, s.w, s.h, 0, 0, s.w * escala, s.h * escala);
+  g.imageSmoothingEnabled = false;
+  if (s.c) g.drawImage(s.c, 0, 0, s.w * escala, s.h * escala);
+  else g.drawImage(ATL, s.x, s.y, s.w, s.h, 0, 0, s.w * escala, s.h * escala);
   return c.toDataURL('image/png');
 }
 
@@ -554,24 +631,29 @@ var T = 0;                       // reloj de animación
 var J;                           // la partida
 function nueva() {
   J = {
-    cam: 0, vel: VEL0, t: 0, dist: 0, bono: 0, pts: 0,
-    hy: 0, vy: 0, suelo: true, ultSuelo: 0, quiere: -1, aterriza: 0, caer: 0, saltoT: -9,
-    tg: GAPMAX, invul: 0, golpeT: 0, temblor: 0, saltos: 0,
+    cam: 0, vel: velocidad(0), t: 0, dist: 0, bono: 0, pts: 0, nivel: 1,
+    hy: 0, vy: 0, suelo: true, ultSuelo: 0, quiere: -1, aterriza: 0, caer: 0, saltoT: -9, doble: false, dobleT: -9,
+    vidas: VIDAS, casco: false, tg: GAPMAX, invul: 0, golpeT: 0, temblor: 0, saltos: 0,
     tramos: [{ x0: -600, x1: 2600 }], genX: 2600,
-    obst: [], objetos: [], plataformas: [], tejas: [], tejasPend: [], adornos: [], textos: [], chispas: [], vientos: [],
-    sigObs: 900, sigPlat: 1700, sigObj: 1300,
-    atrapadoT: 0, giro: 0, finY: 0
+    obst: [], barros: [], objetos: [], plataformas: [], tejas: [], tejasPend: [], adornos: [], textos: [], chispas: [], vientos: [], gotas: [],
+    sigObs: 900, sigPlat: 1500, sigObj: 1300, sigBot: 3400, sigCasco: -1,
+    rayo: 0, sigRayo: 0, atrapadoT: 0
   };
   generarTerreno(J.cam + VW + 3200);
   for (var i = 0; i < 16; i++) J.vientos.push({ x: Math.random() * VW, y: Math.random() * SUELO, l: 10 + Math.random() * 26, v: 1.4 + Math.random() * 1.2 });
+  for (var g = 0; g < 80; g++) J.gotas.push({ x: Math.random() * VW, y: Math.random() * VH, v: 0.8 + Math.random() * 0.5 });
 }
 
 function tramoEn(x) { for (var i = 0; i < J.tramos.length; i++) { var t = J.tramos[i]; if (x >= t.x0 && x <= t.x1) return t; } return null; }
 function generarTerreno(hasta) {
   while (J.genX < hasta) {
     var ultimo = J.tramos[J.tramos.length - 1];
-    if (J.genX > GAPS_DESDE && Math.random() < 0.55) {
-      var hueco = Math.round(rnd(64, 104) / 8) * 8, largo = Math.round(rnd(900, 1900) / 16) * 16;
+    var L = nivelEn(J.genX);
+    if (L >= 2 && Math.random() < 0.6) {
+      /* desde el nivel 3 algunos ríos son anchos: no alcanza un salto, hace falta el doble salto */
+      var ancho = L >= 3 && Math.random() < 0.4;
+      var hueco = ancho ? Math.round(velocidadEn(J.genX) * rnd(1.02, 1.12) / 8) * 8 : Math.round(rnd(64, 112) / 8) * 8;
+      var largo = Math.round(rnd(800, 1700) / 16) * 16;
       J.tramos.push({ x0: J.genX + hueco, x1: J.genX + hueco + largo });
       ponerAdornos(J.genX + hueco, J.genX + hueco + largo);
       J.genX += hueco + largo;
@@ -592,52 +674,91 @@ function ponerAdornos(a, b) {
   }
 }
 
-function dificultad() { return clamp(J.t / RAMPA, 0, 1); }
+/* cuándo llega el personaje a un punto del mundo, y qué nivel y velocidad tendrá */
+function tEn(x) { return J.t + Math.max(0, x - (J.cam + PX)) / Math.max(1, J.vel); }
+function nivelEn(x) { return nivelDe(tEn(x)); }
+function velocidadEn(x) { return velocidad(tEn(x)); }
 
+var TIPOS_SUELO = ['rama', 'caneca', 'bolsas', 'escombros', 'volcada', 'rama', 'caneca'];
+function elegir(L) {
+  var p = L <= 1 ? [1, 0, 0, 0, 0] : L === 2 ? [0.72, 0.28, 0, 0, 0] : L === 3 ? [0.5, 0.2, 0, 0.3, 0] :
+          L === 4 ? [0.36, 0.17, 0.22, 0.15, 0.1] : [0.3, 0.17, 0.2, 0.13, 0.2];
+  var nombres = ['suelo', 'tejaBaja', 'tejaAlta', 'barro', 'doble'], r = Math.random(), a = 0;
+  for (var i = 0; i < p.length; i++) { a += p[i]; if (r < a) return nombres[i]; }
+  return 'suelo';
+}
+function ponerSuelo(x) {
+  var tipo = pick(TIPOS_SUELO), s = SPR[tipo];
+  J.obst.push({ k: tipo, x: x, w: s.w, h: s.h });
+  return s.w;
+}
 function ponerObstaculo() {
-  var x = J.sigObs, ok = false;
+  var x = J.sigObs, L = nivelEn(x), v = velocidadEn(x), tipo = elegir(L), ok = false;
+  var largo = tipo === 'barro' ? Math.round(rnd(72, 100 + 8 * Math.min(L, 8)) / 8) * 8 : tipo === 'doble' ? Math.round(v * 0.3) + 110 : 70;
   for (var n = 0; n < 40; n++) {
     var tr = tramoEn(x);
-    if (tr && x - tr.x0 > 150 && tr.x1 - x > 190) { ok = true; break; }
+    if (tr && x - tr.x0 > Math.max(150, v * 0.9) && tr.x1 - x > largo + 190) { ok = true; break; }
     x += 48;
   }
-  var d = dificultad();
   if (ok) {
-    if (J.dist > TEJAS_DESDE && Math.random() < lerp(0.16, 0.3, d)) {
-      J.tejasPend.push({ x: x });
+    if (tipo === 'tejaBaja' || tipo === 'tejaAlta') {
+      J.tejasPend.push({ x: x, alta: tipo === 'tejaAlta' });
+    } else if (tipo === 'barro') {
+      J.barros.push({ x: x, w: largo });
+      x += largo;
     } else {
-      var tipos = ['rama', 'caneca', 'bolsas', 'escombros', 'volcada', 'rama', 'caneca'];
-      var tipo = pick(tipos), s = SPR[tipo];
-      J.obst.push({ k: tipo, x: x, w: s.w, h: s.h });
-      if (Math.random() < 0.32) J.objetos.push({ k: pick(['botiquin', 'linterna', 'agua']), x: x + s.w / 2, hy: 170, fase: Math.random() * 6 });
+      var w = ponerSuelo(x);
+      if (tipo === 'doble') {                 // dos seguidos: un salto bien medido, o doble salto
+        x += w + Math.round(v * rnd(0.16, 0.22));
+        w = ponerSuelo(x);
+      } else if (Math.random() < 0.3) {
+        J.objetos.push({ k: pick(['linterna', 'agua']), x: x + w / 2, hy: 170, fase: Math.random() * 6 });
+      }
+      x += w;
     }
   }
-  J.sigObs = x + J.vel * rnd(lerp(1.25, 0.85, d), lerp(2.15, 1.35, d));
+  var f = Math.max(0.64, 1 - 0.07 * (L - 1));   // cada nivel los obstáculos llegan más seguido
+  J.sigObs = x + v * rnd(1.25 * f, 2.1 * f);
 }
 function ponerPlataforma() {
-  var x = J.sigPlat, w = pick([112, 128, 144, 160]), h = Math.round(rnd(140, 150));
+  /* islas altas: se llega con doble salto */
+  var x = J.sigPlat, w = pick([112, 128, 144, 160]), h = Math.round(rnd(150, 162));
   J.plataformas.push({ x: x, w: w, hy: h });
   var cuantos = Math.random() < 0.5 ? 1 : 2;
-  for (var i = 0; i < cuantos; i++) J.objetos.push({ k: pick(['botiquin', 'linterna', 'agua']), x: x + w * (cuantos === 1 ? 0.5 : (0.3 + 0.4 * i)), hy: h + 24, fase: Math.random() * 6 });
-  J.sigPlat = x + w + J.vel * rnd(5, 9);
+  for (var i = 0; i < cuantos; i++) J.objetos.push({ k: pick(['linterna', 'agua']), x: x + w * (cuantos === 1 ? 0.5 : (0.3 + 0.4 * i)), hy: h + 24, fase: Math.random() * 6 });
+  J.sigPlat = x + w + velocidadEn(x) * rnd(5, 9);
 }
 function ponerObjetoSuelto() {
   var x = J.sigObj, tr = tramoEn(x);
-  if (tr && x - tr.x0 > 60 && tr.x1 - x > 60 && !obstaculoCerca(x, 70)) J.objetos.push({ k: pick(['botiquin', 'linterna', 'agua']), x: x, hy: 34, fase: Math.random() * 6 });
-  J.sigObj = x + J.vel * rnd(2.5, 5);
+  if (tr && x - tr.x0 > 60 && tr.x1 - x > 60 && !obstaculoCerca(x, 70)) J.objetos.push({ k: pick(['linterna', 'agua']), x: x, hy: 34, fase: Math.random() * 6 });
+  J.sigObj = x + velocidadEn(x) * rnd(2.5, 5);
+}
+/* botiquín y casco: más escasos, a veces en lo alto */
+function ponerEspecial(k, x) {
+  for (var n = 0; n < 30; n++) {
+    var tr = tramoEn(x);
+    if (tr && x - tr.x0 > 80 && tr.x1 - x > 80 && !obstaculoCerca(x, 90) && !barroCerca(x, 90)) break;
+    x += 40;
+  }
+  J.objetos.push({ k: k, x: x, hy: k === 'botiquin' ? pick([34, 120, 205]) : pick([34, 120]), fase: Math.random() * 6 });
+  return x;
 }
 function obstaculoCerca(x, m) {
   for (var i = 0; i < J.obst.length; i++) { var o = J.obst[i]; if (x > o.x - m && x < o.x + o.w + m) return true; }
   return false;
 }
+function barroCerca(x, m) {
+  for (var i = 0; i < J.barros.length; i++) { var b = J.barros[i]; if (x > b.x - m && x < b.x + b.w + m) return true; }
+  return false;
+}
 function soltarTejas() {
-  /* la teja llega volando desde la derecha a la altura de las piernas, justo cuando
-     el personaje pasa por el lugar que se le guardó: hay que saltarla */
+  /* la teja llega volando justo cuando el personaje pasa por el lugar que se le guardó.
+     Baja (a las piernas): hay que saltarla. Alta (a la cabeza si saltas): no hay que saltar. */
   var extra = 150;
   for (var i = J.tejasPend.length - 1; i >= 0; i--) {
     var p = J.tejasPend[i], falta = (p.x - (J.cam + PX)) / J.vel, vuelo = (VW + 40 - PX) / (J.vel + extra);
     if (falta > 0.8 + vuelo) continue;
-    J.tejas.push({ sx: PX + (J.vel + extra) * Math.max(0, falta - 0.8), hy: 30, extra: extra, aviso: Math.min(0.8, Math.max(0, falta)), giro: 0 });
+    J.tejas.push({ sx: PX + (J.vel + extra) * Math.max(0, falta - 0.8), hy: p.alta ? 118 : 30, alta: p.alta, extra: extra, aviso: Math.min(0.8, Math.max(0, falta)), giro: 0 });
     J.tejasPend.splice(i, 1);
   }
 }
@@ -665,24 +786,37 @@ cv.addEventListener('contextmenu', function (e) { e.preventDefault(); });
    ===================================================================== */
 function actualizar(dt) {
   J.t += dt;
-  var d = dificultad();
-  J.vel = lerp(VEL0, VELMAX, d);
+  J.vel = velocidad(J.t);
+  var nv = nivelDe(J.t);
+  if (nv > J.nivel) { J.nivel = nv; anunciarNivel(nv); }
   var avance = J.vel * dt;
   J.cam += avance; J.dist += avance;
   J.pts = Math.floor(J.dist / UNIDADES_POR_PUNTO) + J.bono;
 
   generarTerreno(J.cam + VW + 3200);
-  while (J.sigObs < J.cam + VW + 260) ponerObstaculo();
-  if (J.dist > 1500) while (J.sigPlat < J.cam + VW + 260) ponerPlataforma(); else if (J.sigPlat < J.cam + VW + 260) J.sigPlat = J.cam + VW + 600;
-  while (J.sigObj < J.cam + VW + 260) ponerObjetoSuelto();
+  var hasta = J.cam + VW + 260;
+  while (J.sigObs < hasta) ponerObstaculo();
+  if (J.dist > 1200) { while (J.sigPlat < hasta) ponerPlataforma(); } else if (J.sigPlat < hasta) J.sigPlat = J.cam + VW + 600;
+  while (J.sigObj < hasta) ponerObjetoSuelto();
+  /* el botiquín sale cada vez menos: en los niveles altos cuesta más recuperar vidas */
+  if (J.sigBot < hasta) J.sigBot = ponerEspecial('botiquin', J.sigBot) + J.vel * (J.nivel <= 2 ? rnd(11, 16) : J.nivel <= 4 ? rnd(16, 24) : rnd(22, 32));
+  if (J.nivel >= 2) {
+    if (J.sigCasco < 0) J.sigCasco = J.cam + VW + J.vel * rnd(3, 8);
+    if (J.sigCasco < hasta) J.sigCasco = ponerEspecial('casco', J.sigCasco) + J.vel * rnd(24, 34);
+  }
   soltarTejas();
 
-  /* ---- personaje ---- */
+  /* ---- personaje: salto y doble salto ---- */
   var xp = J.cam + PX, prev = J.hy;
   var buffer = J.quiere >= 0 && J.t - J.quiere < 0.14;
   var coyote = J.t - J.ultSuelo < 0.1;
-  if (buffer && (J.suelo || coyote) && J.caer <= 0) {
-    J.vy = SALTO; J.suelo = false; J.quiere = -1; J.ultSuelo = -9; J.saltoT = J.t; J.saltos++; sonar.salto();
+  if (buffer && J.caer <= 0) {
+    if (J.suelo || coyote) {
+      J.vy = SALTO; J.suelo = false; J.quiere = -1; J.ultSuelo = -9; J.saltoT = J.t; J.doble = false; J.saltos++; sonar.salto();
+    } else if (!J.doble) {
+      J.vy = Math.max(J.vy + 180, DOBLE); J.doble = true; J.dobleT = J.t; J.quiere = -1; J.saltos++; sonar.doble();
+      for (var pf = 0; pf < 9; pf++) J.chispas.push({ x: PX + rnd(-12, 12), y: SUELO - J.hy + rnd(-2, 2), vx: rnd(-90, 90), vy: rnd(10, 70), t: 0, col: pick(['#ffffff', '#e6f4ff', '#cfe8ff']) });
+    }
   }
   J.vy -= G * dt;
   J.hy += J.vy * dt;
@@ -696,22 +830,20 @@ function actualizar(dt) {
   }
   if (apoyo !== null) {
     if (!J.suelo && J.vy < -200) J.aterriza = 0.14;
-    J.hy = apoyo; J.vy = 0; J.suelo = true; J.ultSuelo = J.t;
+    J.hy = apoyo; J.vy = 0; J.suelo = true; J.ultSuelo = J.t; J.doble = false;
   } else if (J.suelo) {
     J.suelo = false;
   }
   if (J.aterriza > 0) J.aterriza -= dt;
   if (J.caer > 0) J.caer -= dt;
 
-  /* cayó al agua: rebota hacia arriba y el tornado se acerca */
+  /* cayó al agua: rebota hacia arriba y pierde una vida */
   if (J.hy < -34) {
     sonar.agua(); salpicar(PX, SUELO + 26);
-    J.hy = -34; J.vy = SALTO * 1.3; J.suelo = false; J.caer = 0.15;
-    golpear(true);
+    J.hy = -34; J.vy = SALTO * 1.45; J.suelo = false; J.caer = 0.15; J.doble = false;
+    golpear('agua');
   }
 
-  /* ---- tornado ---- */
-  J.tg = Math.min(GAPMAX, J.tg + GAPMAX / 22 * dt);
   if (J.invul > 0) J.invul -= dt;
   if (J.golpeT > 0) J.golpeT -= dt;
   if (J.temblor > 0) J.temblor -= dt;
@@ -723,7 +855,20 @@ function actualizar(dt) {
       var ob = J.obst[o];
       if (ob.pegado) continue;
       var ox0 = ob.x + ob.w * 0.18, ox1 = ob.x + ob.w * 0.82, oy1 = ob.h * 0.78;
-      if (cuerpo.x1 > ox0 && cuerpo.x0 < ox1 && cuerpo.y0 < oy1) { ob.pegado = true; golpear(false); break; }
+      if (cuerpo.x1 > ox0 && cuerpo.x0 < ox1 && cuerpo.y0 < oy1) { ob.pegado = true; golpear('golpe'); break; }
+    }
+  }
+  /* barro: solo si lo pisa */
+  if (J.suelo && J.hy === 0) {
+    for (var m = 0; m < J.barros.length; m++) {
+      var ba = J.barros[m];
+      if (!ba.pegado && xp + 6 > ba.x + 8 && xp - 6 < ba.x + ba.w - 8) {
+        ba.pegado = true;
+        if (J.invul <= 0) {
+          golpear('barro');
+          for (var c0 = 0; c0 < 10; c0++) J.chispas.push({ x: PX + rnd(-10, 10), y: SUELO - 2, vx: rnd(-80, 80), vy: rnd(-160, -60), t: 0, col: pick(['#6d4428', '#8a5a34', '#4a2c1a']) });
+        }
+      }
     }
   }
   for (var tj = J.tejas.length - 1; tj >= 0; tj--) {
@@ -731,37 +876,56 @@ function actualizar(dt) {
     if (te.aviso > 0) { te.aviso -= dt; continue; }
     te.sx -= (J.vel + te.extra) * dt; te.giro += dt * 9;
     var tw = SPR.teja.w, th = SPR.teja.h;
-    if (J.invul <= 0 && !te.pegada && te.sx + tw * 0.8 > PX - 11 && te.sx + tw * 0.2 < PX + 11 && cuerpo.y0 < te.hy + th * 0.35 && cuerpo.y1 > te.hy - th * 0.35) { te.pegada = true; golpear(false); }
+    if (J.invul <= 0 && !te.pegada && te.sx + tw * 0.8 > PX - 11 && te.sx + tw * 0.2 < PX + 11 && cuerpo.y0 < te.hy + th * 0.35 && cuerpo.y1 > te.hy - th * 0.35) { te.pegada = true; golpear('golpe'); }
     if (te.sx < -80) J.tejas.splice(tj, 1);
   }
   for (var b = J.objetos.length - 1; b >= 0; b--) {
     var ob2 = J.objetos[b], s2 = SPR[ob2.k];
     var cx = ob2.x, cy = ob2.hy;
     if (cx + s2.w / 2 + 8 > cuerpo.x0 && cx - s2.w / 2 - 8 < cuerpo.x1 && cy + s2.h / 2 + 8 > cuerpo.y0 && cy - s2.h / 2 - 8 < cuerpo.y1) {
-      J.bono += BONO; sonar.objeto();
-      J.textos.push({ s: '+' + BONO, x: cx - J.cam, hy: cy + 20, t: 0 });
+      var etiqueta = '+' + BONO, color = '#ffe680';
+      if (ob2.k === 'botiquin' && J.vidas < VIDAS) { J.vidas++; etiqueta = '+1♥'; color = '#ff8a98'; sonar.vida(); }
+      else if (ob2.k === 'casco') { J.casco = true; etiqueta = 'CASCO'; color = '#ffd23a'; sonar.vida(); }
+      else { J.bono += BONO; sonar.objeto(); }
+      J.textos.push({ s: etiqueta, col: color, x: cx - J.cam, hy: cy + 20, t: 0 });
       for (var c = 0; c < 8; c++) J.chispas.push({ x: cx - J.cam, y: SUELO - cy, vx: rnd(-60, 60), vy: rnd(-120, -30), t: 0, col: pick(['#ffffff', '#ffe680', '#9fe7ff']) });
       J.objetos.splice(b, 1);
     } else if (cx < J.cam - 120) J.objetos.splice(b, 1);
   }
 
+  /* ---- el tornado: la distancia depende de las vidas ---- */
+  var objetivo = GAPMAX * J.vidas / VIDAS;
+  if (J.tg > objetivo) J.tg = Math.max(objetivo, J.tg - (J.vidas === 0 ? 320 : 150) * dt);
+  else J.tg = Math.min(objetivo, J.tg + 60 * dt);
+
+  /* ---- tormenta: relámpagos desde el nivel 5 (solo se ven) ---- */
+  if (J.t > NIVEL_SEG * 4) { J.sigRayo -= dt; if (J.sigRayo <= 0) { J.rayo = 0.35; J.sigRayo = rnd(5, 10); sonar.trueno(); } }
+  if (J.rayo > 0) J.rayo -= dt;
+
   /* limpiar lo que ya pasó */
   J.obst = J.obst.filter(function (o) { return o.x + o.w > J.cam - 120; });
+  J.barros = J.barros.filter(function (o) { return o.x + o.w > J.cam - 120; });
   J.plataformas = J.plataformas.filter(function (p) { return p.x + p.w > J.cam - 120; });
   J.adornos = J.adornos.filter(function (a) { return a.x > J.cam - 60; });
 
   for (var q = J.textos.length - 1; q >= 0; q--) { var tx = J.textos[q]; tx.t += dt; tx.hy += 40 * dt; if (tx.t > 0.9) J.textos.splice(q, 1); }
   for (var ch = J.chispas.length - 1; ch >= 0; ch--) { var sp = J.chispas[ch]; sp.t += dt; sp.x += sp.vx * dt; sp.y += sp.vy * dt; sp.vy += 300 * dt; if (sp.t > 0.6) J.chispas.splice(ch, 1); }
 
-  if (J.tg <= 0) atrapar();
+  if (J.vidas === 0 && J.tg <= 0) atrapar();
 }
 
-function golpear(agua) {
-  if (J.invul > 0 && !agua) return;
-  J.tg -= GAPMAX * 0.36;
+/* tipo: 'golpe' (obstáculo o teja), 'barro' o 'agua'. El casco solo protege de los golpes. */
+function golpear(tipo) {
+  if (tipo !== 'agua' && J.invul > 0) return;
+  if (tipo === 'golpe' && J.casco) {
+    J.casco = false; J.invul = 1.0; J.temblor = 0.18; sonar.casco();
+    for (var c = 0; c < 10; c++) J.chispas.push({ x: PX + rnd(-10, 10), y: SUELO - J.hy - 92, vx: rnd(-90, 90), vy: rnd(-160, -40), t: 0, col: pick(['#ffcc1f', '#fff2a8', '#2a2a2a']) });
+    return;
+  }
+  J.vidas = Math.max(0, J.vidas - 1);
   J.invul = 1.1; J.golpeT = 0.3; J.temblor = 0.28;
-  if (!agua) sonar.golpe();
-  try { if (navigator.vibrate) navigator.vibrate(45); } catch (e) {}
+  if (tipo === 'golpe') sonar.golpe(); else if (tipo === 'barro') sonar.barro();
+  try { if (navigator.vibrate) navigator.vibrate(J.vidas === 0 ? [60, 40, 60] : 45); } catch (e) {}
 }
 function salpicar(x, y) {
   for (var c = 0; c < 12; c++) J.chispas.push({ x: x + rnd(-10, 10), y: y, vx: rnd(-70, 70), vy: rnd(-220, -90), t: 0, col: pick([C.aguaEspuma, '#ffffff', C.aguaLuz]) });
@@ -795,6 +959,10 @@ function dibujar() {
   for (; lx < VW; lx += lw) bx.drawImage(FONDO.lomas, lx, SUELO + 8 - FONDO.lomas.height);
   capa(FONDO.pinos1, cam * 0.22, A, function (o, x) { bx.drawImage(o.c, x, SUELO + 6 - o.c.height); });
   capa(FONDO.pinos2, cam * 0.38, A, function (o, x) { bx.drawImage(o.c, x, SUELO + 10 - o.c.height); });
+
+  /* la tormenta oscurece el cielo nivel tras nivel */
+  var tormenta = clamp((J.t - 25) / 95, 0, 1);
+  if (tormenta > 0) { bx.fillStyle = 'rgba(30,38,56,' + (0.45 * tormenta).toFixed(3) + ')'; bx.fillRect(0, 0, VW, SUELO + 30); }
 
   /* oscurece el cielo del lado del tornado */
   var xT = PX - J.tg;
@@ -864,6 +1032,12 @@ function dibujar() {
       bx.fillRect(sxp - L, syp, L * 2 + 1, 1); bx.fillRect(sxp, syp - L, 1, L * 2 + 1);
     }
   }
+  /* barro */
+  for (var bb = 0; bb < J.barros.length; bb++) {
+    var ba = J.barros[bb], bxp = Math.round(ba.x - cam);
+    if (bxp > VW + 10 || bxp + ba.w < -10) continue;
+    bx.drawImage(barroImg(ba.w), bxp, SUELO - 6);
+  }
   /* obstáculos */
   for (var k2 = 0; k2 < J.obst.length; k2++) {
     var ob3 = J.obst[k2], ox = ob3.x - cam;
@@ -882,9 +1056,10 @@ function dibujar() {
     var te = J.tejas[tj];
     if (te.aviso > 0) {
       if (Math.floor(te.aviso * 8) % 2 === 0) {
-        var aviso = texto('!', '#ffffff');
-        bx.fillStyle = '#e8343b'; bx.fillRect(VW - 26, SUELO - te.hy - 12, 18, 22);
-        bx.drawImage(aviso, VW - 26 + 3, SUELO - te.hy - 10);
+        var aviso = texto('!', '#ffffff'), ay = Math.round(SUELO - te.hy - 20);
+        bx.fillStyle = '#1b2433'; bx.fillRect(VW - 42, ay - 1, 33, 40);
+        bx.fillStyle = te.alta ? '#f08c00' : '#e8343b'; bx.fillRect(VW - 41, ay, 31, 38);
+        bx.drawImage(aviso, VW - 41 + 5, ay + 6, aviso.width * 3, aviso.height * 3);
       }
       continue;
     }
@@ -898,12 +1073,22 @@ function dibujar() {
   /* chispas y "+25" */
   for (var c = 0; c < J.chispas.length; c++) { var cp = J.chispas[c]; bx.fillStyle = cp.col; bx.fillRect(Math.round(cp.x), Math.round(cp.y), 2, 2); }
   for (var q = 0; q < J.textos.length; q++) {
-    var tx = J.textos[q], im = texto(tx.s, '#ffe680');
+    var tx = J.textos[q], im = texto(tx.s, tx.col || '#ffe680');
     bx.globalAlpha = clamp(1.4 - tx.t * 1.5, 0, 1);
     bx.drawImage(im, Math.round(tx.x - im.width), Math.round(SUELO - tx.hy), im.width * 2, im.height * 2);
     bx.globalAlpha = 1;
   }
   bx.restore();
+
+  /* lluvia desde el nivel 4 y relámpagos desde el nivel 5 */
+  if (tormenta > 0) { bx.fillStyle = 'rgba(16,22,38,' + (0.16 * tormenta).toFixed(3) + ')'; bx.fillRect(0, 0, VW, VH); }
+  var lluvia = clamp((J.t - NIVEL_SEG * 3 + 5) / 25, 0, 1);
+  if (lluvia > 0) {
+    bx.fillStyle = 'rgba(205,222,255,0.55)';
+    var ng = Math.round(J.gotas.length * lluvia);
+    for (var gi = 0; gi < ng; gi++) { var go = J.gotas[gi], gx = Math.round(go.x), gy = Math.round(go.y); bx.fillRect(gx, gy, 1, 4); bx.fillRect(gx - 1, gy + 4, 1, 3); }
+  }
+  if (J.rayo > 0) { bx.fillStyle = 'rgba(255,255,255,' + (J.rayo > 0.25 ? 0.6 : J.rayo > 0.14 ? 0.08 : 0.32) + ')'; bx.fillRect(0, 0, VW, VH); }
 
   /* pasar el mundo a la pantalla, con pixeles nítidos */
   ctx.imageSmoothingEnabled = false;
@@ -913,7 +1098,18 @@ function dibujar() {
   /* puntos arriba */
   if (estado === 'jugando' || estado === 'pausa') {
     var kk = Math.max(2, Math.round(26 * dpr / 7)), num = texto(String(J.pts), '#ffffff');
-    ctx.drawImage(num, Math.round(14 * dpr), Math.round(safeTop + 14 * dpr), num.width * kk, num.height * kk);
+    var x0 = Math.round(14 * dpr), y0 = Math.round(safeTop + 14 * dpr);
+    ctx.drawImage(num, x0, y0, num.width * kk, num.height * kk);
+    /* vidas, casco y nivel */
+    var kh = Math.max(2, Math.round(kk * 0.75)), yv = y0 + num.height * kk + Math.round(6 * dpr);
+    for (var vi = 0; vi < VIDAS; vi++) {
+      var hc = vi < J.vidas ? CORAZON : CORAZON_VACIO;
+      if (vi === J.vidas - 1 && J.vidas === 1 && Math.floor(T * 4) % 2 === 0) hc = CORAZON_VACIO;   // la última vida parpadea
+      ctx.drawImage(hc, x0 + vi * (hc.width + 2) * kh, yv, hc.width * kh, hc.height * kh);
+    }
+    if (J.casco) { var kc = Math.max(2, kh - 2); ctx.drawImage(CASCO, x0 + VIDAS * (CORAZON.width + 2) * kh + Math.round(4 * dpr), yv + Math.round((CORAZON.height * kh - CASCO.height * kc) / 2), CASCO.width * kc, CASCO.height * kc); }
+    var kn = Math.max(2, Math.round(kk * 0.5)), nt = texto('NIVEL ' + J.nivel, '#ffffff');
+    ctx.drawImage(nt, x0, yv + CORAZON.height * kh + Math.round(6 * dpr), nt.width * kn, nt.height * kn);
   }
 }
 function capa(lista, desplaza, A, fn) {
@@ -997,13 +1193,15 @@ function dibujarPersonaje() {
   if (J.invul > 0 && Math.floor(J.invul * 12) % 2 === 0) return;
   var nombre = cuadroPersonaje(), s = SPR[nombre];
   var empuje = J.golpeT > 0 ? -Math.round(J.golpeT * 20) : 0;
-  spr(nombre, PX - s.a + empuje, SUELO - J.hy - s.h + 1);
+  var arriba = SUELO - J.hy - s.h + 1;
+  spr(nombre, PX - s.a + empuje, arriba);
+  if (J.casco) bx.drawImage(CASCO, Math.round(PX + empuje + 1 - CASCO.width / 2), Math.round(arriba - 4));
 }
 
 /* =====================================================================
    Bucle
    ===================================================================== */
-var ultimo = 0, raf = 0;
+var ultimo = 0, raf = 0, TURBO = 1;
 function cuadro(ahora) {
   raf = requestAnimationFrame(cuadro);
   var dt = Math.min(0.033, Math.max(0, (ahora - ultimo) / 1000));
@@ -1012,9 +1210,9 @@ function cuadro(ahora) {
   if (alarmaVisible() && (estado === 'jugando')) { pausar(true); }
   if (estado === 'jugando') {
     T += dt;
-    actualizar(dt);
+    for (var rep = 0; rep < TURBO && estado === 'jugando'; rep++) actualizar(dt);
     moverViento(dt);
-    vientoVolumen(0.03 + 0.14 * clamp(1 - J.tg / GAPMAX, 0, 1));
+    vientoVolumen(0.03 + 0.14 * clamp(1 - J.tg / GAPMAX, 0, 1) + 0.05 * clamp((J.t - 60) / 60, 0, 1));
   } else if (estado === 'atrapado') {
     T += dt; J.atrapadoT += dt;
     J.tg = -Math.min(1, J.atrapadoT / 0.7) * 60;
@@ -1030,6 +1228,12 @@ function moverViento(dt) {
     var w = J.vientos[v];
     w.x -= J.vel * w.v * dt;
     if (w.x + w.l < 0) { w.x = VW + Math.random() * 60; w.y = Math.random() * (SUELO - 10); }
+  }
+  for (var g = 0; g < J.gotas.length; g++) {
+    var go = J.gotas[g];
+    go.y += 560 * go.v * dt; go.x -= (140 + J.vel * 0.35) * dt;
+    if (go.y > VH) { go.y = -10 - Math.random() * 40; go.x = Math.random() * (VW + 120); }
+    if (go.x < -10) go.x += VW + 20;
   }
 }
 function alarmaVisible() { var a = document.getElementById('twAlarma'); return !!(a && !a.hidden); }
@@ -1047,7 +1251,16 @@ pausaBtn.addEventListener('click', function () { pausar(); });
 pintarSonido();
 
 function mostrarHud() { sonidoBtn.hidden = false; pausaBtn.hidden = false; }
-function ocultarHud() { sonidoBtn.hidden = true; pausaBtn.hidden = true; ocultarAyuda(); }
+function ocultarHud() { sonidoBtn.hidden = true; pausaBtn.hidden = true; ocultarAyuda(); nivelEl.classList.remove('ver'); }
+var nivelEl = $('#nivel'), nivelTimer = 0;
+function anunciarNivel(n) {
+  var d = NIVELES[n] || ['Nivel ' + n, '¡Más rápido!'];
+  nivelEl.querySelector('.n').textContent = d[0];
+  nivelEl.querySelector('.d').textContent = d[1];
+  nivelEl.classList.remove('ver'); void nivelEl.offsetWidth; nivelEl.classList.add('ver');
+  clearTimeout(nivelTimer); nivelTimer = setTimeout(function () { nivelEl.classList.remove('ver'); }, n === 1 ? 4600 : 3600);
+  if (n > 1) sonar.nivel();
+}
 var ayudaTimer = 0;
 function mostrarAyuda() { ayudaEl.hidden = false; requestAnimationFrame(function () { ayudaEl.classList.remove('fuera'); }); clearTimeout(ayudaTimer); ayudaTimer = setTimeout(ocultarAyuda, 4500); }
 function ocultarAyuda() { ayudaEl.classList.add('fuera'); clearTimeout(ayudaTimer); ayudaTimer = setTimeout(function () { ayudaEl.hidden = true; }, 450); }
@@ -1059,7 +1272,7 @@ function empezar() {
   nueva();
   T = 0; estado = 'jugando'; ultimo = performance.now();
   inicioEl.hidden = true; finEl.hidden = true; finEl.classList.remove('ver'); pausaEl.hidden = true;
-  mostrarHud(); mostrarAyuda();
+  mostrarHud(); mostrarAyuda(); anunciarNivel(1);
   try { cv.focus({ preventScroll: true }); } catch (e) {}
 }
 function pausar(porAlarma) {
@@ -1089,6 +1302,7 @@ function terminar() {
   var r = $('#finRecord');
   r.className = 'record' + (nuevo && rec > 0 ? ' nuevo' : '');
   r.textContent = nuevo ? (rec > 0 ? '¡Nuevo récord en este celular!' : 'Tu primer récord en este celular') : 'Tu récord en este celular: ' + rec.toLocaleString('es-CO');
+  $('#finNivel').textContent = 'Llegaste al nivel ' + J.nivel;
   var cs = CONSEJOS[consejoI % CONSEJOS.length]; consejoI++;
   $('#consejoT').textContent = cs[0]; $('#consejoP').textContent = cs[1];
   guardado = false; ultimoId = null;
@@ -1168,9 +1382,10 @@ ATL.onload = function () {
   atlasListo = true;
   $('#letras').src = sprURL('letras', 1);
   var ul = $('#objetos');
-  [['botiquin', 'Botiquín'], ['linterna', 'Linterna'], ['agua', 'Agua']].forEach(function (o) {
-    var li = document.createElement('li'), im = new Image();
-    im.src = sprURL(o[0], 2); im.alt = ''; li.appendChild(im); li.appendChild(document.createTextNode(o[1])); ul.appendChild(li);
+  [[['botiquin'], '+1 vida'], [['casco'], 'Te protege de un golpe'], [['linterna', 'agua'], '+10 puntos']].forEach(function (o) {
+    var li = document.createElement('li');
+    o[0].forEach(function (k) { var im = new Image(); im.src = sprURL(k, 2); im.alt = ''; li.appendChild(im); });
+    li.appendChild(document.createTextNode(o[1])); ul.appendChild(li);
   });
   nueva(); dibujar();
 };
@@ -1187,7 +1402,7 @@ cargarRanking(1);
 raf = requestAnimationFrame(cuadro);
 
 /* para revisar desde la consola */
-window.TWJuego = { estado: function () { return { estado: estado, pts: J && J.pts, t: J && J.t, tg: J && J.tg, vel: J && J.vel, VW: VW, VH: VH, esc: esc, SUELO: SUELO, PX: PX, GAPMAX: GAPMAX }; }, partida: function () { return J; } };
+window.TWJuego = { estado: function () { return { estado: estado, pts: J && J.pts, t: J && J.t, tg: J && J.tg, vel: J && J.vel, VW: VW, VH: VH, esc: esc, SUELO: SUELO, PX: PX, GAPMAX: GAPMAX }; }, partida: function () { return J; }, turbo: function (n) { TURBO = Math.max(1, Math.min(8, n | 0)); } };
 })();
 </script>
 </body>
